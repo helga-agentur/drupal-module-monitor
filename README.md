@@ -9,7 +9,7 @@ As soon as you put the following lines in your settings.php file, monitoring fun
 ```php
 $settings['instance'] = [
   'monitor' => 'https://www.joinbox.com',
-  'user' => 'admin',
-  'password' => 'admin',
+  'user' => 'monitor',
+  'password' => 'BITWARDEN',
 ];
 ```
