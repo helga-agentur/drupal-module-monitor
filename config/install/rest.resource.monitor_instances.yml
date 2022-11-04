@@ -1,0 +1,18 @@
+uuid: 2750ed6b-e3fe-405b-b9d0-aaea77e75fbf
+langcode: de
+status: true
+dependencies:
+  module:
+    - basic_auth
+    - monitor
+    - serialization
+id: monitor_instances
+plugin_id: monitor_instances
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - basic_auth

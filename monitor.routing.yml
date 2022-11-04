@@ -1,0 +1,7 @@
+monitor.overview:
+  path: '/monitor'
+  defaults:
+    _title: 'Monitor'
+    _controller: '\Drupal\monitor\Controller\MonitorController::build'
+  requirements:
+    _permission: 'administer users'

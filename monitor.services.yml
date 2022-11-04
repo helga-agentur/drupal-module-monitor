@@ -1,0 +1,4 @@
+services:
+  monitor.storage:
+    class: Drupal\monitor\MonitorStorage
+    arguments: [ '@tempstore.shared']

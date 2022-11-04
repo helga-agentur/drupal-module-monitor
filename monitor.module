@@ -1,0 +1,9 @@
+<?php
+
+function monitor_theme() {
+  return [
+    'monitor' => [
+      'render element' => 'monitor'
+    ],
+  ];
+}

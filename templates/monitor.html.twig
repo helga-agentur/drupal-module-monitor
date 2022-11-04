@@ -1,0 +1,8 @@
+{% for instance in monitor.instances %}
+  Identifier: {{ instance.identifier }}</br>
+  Updated: {{ instance.timestamp|date("d.m.Y H:i:s") }}</br>
+  Drupal: {{ instance.drupal.version }}</br>
+  PHP: {{ instance.php.version }}</br>
+  Git Commit: {{ instance.git.commit }}</br>
+  Git Head: {{ instance.git.head }}</br>
+{% endfor %}
