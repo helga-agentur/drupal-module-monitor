@@ -1,3 +1,4 @@
+{#
 {% for project in monitor.projects %}
   Project: {{ project.identifier }}<br/>
   {% for environment in project.environments %}
@@ -11,3 +12,62 @@
     Git Head: <a href="{{ environment.git.headUrl }}">{{ environment.git.head }}</a><br/><br/>
   {% endfor %}
 {% endfor %}
+#}
+
+{#
+/**
+ * @var monitor.instances
+ *
+ */
+#}
+
+{% set currentProject = null %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Projekt</th>
+      <th>Drupal</th>
+      <th>PHP</th>
+      <th>Head</th>
+      <th>Commit</th>
+      <th>Node</th>
+    </tr>
+  </thead>
+
+  {#<tbody>#}
+
+    {% for instance in monitor.instances %}
+
+      {% set isNextProject = currentProject != instance.project %}
+
+      {% if isNextProject %}
+        {% set currentProject = instance.project %}
+        <tbody>
+          <tr>
+            <td>
+              <h1><strong>{{ instance.project }}</strong></h1>
+            </td>
+          </tr>
+      {% endif %}
+
+      <tr>
+        <td>
+          <p>{{ instance.environment }}</p>
+          <p>Values updated {{ instance.timestamp|date("d.m.Y H:i:s") }}</p>
+        </td>
+
+        <td>{{ instance.data.drupal.version }}</td>
+        <td>{{ instance.data.php.version }}</td>
+        <td><a href="{{ instance.data.git.headUrl }}">{{ instance.data.git.head }}</a></td>
+        <td><a href="{{ instance.data.git.commitUrl }}">{{ instance.data.git.commit }}</a></td>
+        <td>{{ instance.data.node.version }}</td>
+      </tr>
+
+    {% endfor %}
+
+  </tbody>
+</table>
+
+
+
