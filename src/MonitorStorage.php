@@ -80,6 +80,24 @@ class MonitorStorage {
   }
 
   /**
+   * Delete the whole project from storage
+   *
+   * @param string $project
+   * @return void
+   * @throws \Drupal\Core\TempStore\TempStoreException
+   */
+  public function deleteProject(string $project): void {
+    foreach ($this->getEnvironments($project) as $environment) {
+      $this->deleteInstanceData($project, $environment);
+    }
+    $projects = $this->getProjects();
+    if (($key = array_search($project, $projects)) !== false) {
+      unset($projects[$key]);
+    }
+    $this->monitorDataStore->set(self::PROJECT_NAME, array_unique($projects));
+  }
+
+  /**
    * Adds an environment to a project
    *
    * @param string $project

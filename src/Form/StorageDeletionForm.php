@@ -41,6 +41,7 @@ class StorageDeletionForm extends FormBase {
     $form['project'] = [
       '#type' => 'select',
       '#title' => $this->t('Project'),
+      '#description' => $this->t('In case you want to delete the whole project, choose "All" for the environment'),
       '#required' => TRUE,
       '#options' => $this->monitorStorage->getProjects(),
       '#ajax' => [
@@ -58,7 +59,10 @@ class StorageDeletionForm extends FormBase {
       '#suffix' => '</div>',
     ];
     $project = $form['project']['#options'][$form_state->getValue('project')];
-    if ($project) $form['environment']['#options'] = $this->monitorStorage->getEnvironments($project);
+    if ($project) {
+      $form['environment']['#options'] = $this->monitorStorage->getEnvironments($project);
+      $form['environment']['#options'][] = 'All';
+    }
 
     $form['actions'] = [
       '#type' => 'actions',
@@ -74,6 +78,7 @@ class StorageDeletionForm extends FormBase {
   public function updateEnvironments(array &$form, FormStateInterface $form_state) {
     $project = $form['project']['#options'][$form_state->getValue('project')];
     $form['environment']['#options'] = $this->monitorStorage->getEnvironments($project);
+    $form['environment']['#options'][] = 'All';
     return $form['environment'];
   }
 
@@ -84,7 +89,13 @@ class StorageDeletionForm extends FormBase {
     $project = $form['project']['#options'][$form_state->getValue('project')];
     $environment = $form['environment']['#options'][$form_state->getValue('environment')];
     if ($project && $environment) {
-      $this->monitorStorage->deleteInstanceData($project, $environment);
+      //depending on the value of environment, delete whole project or environment only.
+      if ($environment == 'All') {
+        $this->monitorStorage->deleteProject($project);
+      } else {
+        $this->monitorStorage->deleteInstanceData($project, $environment);
+      }
+
       $this->messenger()->addStatus($this->t('The environment was deleted'));
     } else {
       $this->messenger()->addError($this->t('The environment could not get deleted.'));
