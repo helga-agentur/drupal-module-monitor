@@ -31,16 +31,13 @@ class MonitorController extends ControllerBase {
    * Renders the monitor
    */
   public function build() {
-    $instances = $this->monitorStorage->getInstances();
-    $data = array_map(function ($instanceIdentifier) {
-      $data = $this->monitorStorage->getInstanceData($instanceIdentifier);
-      $data['identifier'] = $instanceIdentifier;
-      return $data;
-    }, $instances);
+    $projects = array_map(function ($project) {
+      return $this->monitorStorage->getProjectData($project);
+    }, $this->monitorStorage->getProjects());
 
     return [
       '#theme' => 'monitor',
-      'instances' => $data,
+      'projects' => $projects,
       '#cache' => [
         'max-age' => 0
       ],

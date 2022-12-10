@@ -24,6 +24,8 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  */
 class InstanceResource extends ResourceBase implements DependentPluginInterface {
 
+  const _IDENTIFIER = 'project';
+  const _ENVIRONMENT = 'environment';
   protected MonitorStorage $monitorStorage;
 
   /**
@@ -79,7 +81,7 @@ class InstanceResource extends ResourceBase implements DependentPluginInterface 
    * @return void
    */
   private function validate($data): void {
-    if(!key_exists('id', $data)) throw new UnprocessableEntityHttpException('Provide at least an id.');
+    if(!key_exists(self::_IDENTIFIER, $data) || !key_exists(self::_ENVIRONMENT, $data)) throw new UnprocessableEntityHttpException('Provide at least a project and its environment.');
   }
 
   /**
@@ -90,7 +92,7 @@ class InstanceResource extends ResourceBase implements DependentPluginInterface 
    * @throws \Drupal\Core\TempStore\TempStoreException
    */
   private function update($data): void {
-    $this->monitorStorage->setInstanceData($data['id'], $data['data']);
+    $this->monitorStorage->setInstanceData($data[self::_IDENTIFIER], $data[self::_ENVIRONMENT], $data['data']);
   }
 
   public function calculateDependencies() {
