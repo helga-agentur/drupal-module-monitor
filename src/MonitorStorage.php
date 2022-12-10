@@ -43,6 +43,19 @@ class MonitorStorage {
   }
 
   /**
+   * Delete data of instance
+   *
+   * @param string $project
+   * @param string $environment
+   * @return void
+   * @throws \Drupal\Core\TempStore\TempStoreException
+   */
+  public function deleteInstanceData(string $project, string $environment) {
+    $this->deleteEnvironment($project, $environment);
+    $this->monitorDataStore->delete($project . '_' .$environment);
+  }
+
+  /**
    * Get the data of a specific environment of a project
    *
    * @param string $project
@@ -77,6 +90,22 @@ class MonitorStorage {
   private function addEnvironment(string $project, string $environment): void {
     $environments = $this->getEnvironments($project);
     $environments[] = $environment;
+    $this->monitorDataStore->set($project . '_' . self::ENVIRONMENT_NAME, array_unique($environments));
+  }
+
+  /**
+   * Delete environment of a project
+   *
+   * @param string $project
+   * @param string $environment
+   * @return void
+   * @throws \Drupal\Core\TempStore\TempStoreException
+   */
+  private function deleteEnvironment(string $project, string $environment): void {
+    $environments = $this->getEnvironments($project);
+    if (($key = array_search($environment, $environments)) !== false) {
+      unset($environments[$key]);
+    }
     $this->monitorDataStore->set($project . '_' . self::ENVIRONMENT_NAME, array_unique($environments));
   }
 

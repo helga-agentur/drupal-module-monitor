@@ -5,3 +5,11 @@ monitor.overview:
     _controller: '\Drupal\monitor\Controller\MonitorController::build'
   requirements:
     _permission: 'administer users'
+
+monitor.form.storage.deletion:
+  path: '/admin/monitor'
+  defaults:
+    _title: 'Delete Storage Items (Project / Environment)'
+    _form: 'Drupal\monitor\Form\StorageDeletionForm'
+  requirements:
+    _permission: 'administer users'
