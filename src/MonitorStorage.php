@@ -2,10 +2,8 @@
 
 namespace Drupal\monitor;
 
-use Drupal\Core\TempStore\PrivateTempStore;
 use Drupal\Core\TempStore\PrivateTempStoreFactory;
 use Drupal\Core\TempStore\SharedTempStoreFactory;
-use Drupal\taxonomy\Entity\Term;
 
 /**
  * Class MonitorStorage.
