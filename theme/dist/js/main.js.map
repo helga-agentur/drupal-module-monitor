@@ -1,7 +1,7 @@
 {
   "version": 3,
   "sources": ["../../src/js/main.js"],
-  "sourcesContent": ["console.log('Hello World');\n"],
-  "mappings": ";;AAAA,UAAQ,IAAI,aAAa;",
+  "sourcesContent": ["console.log('Hello Worldxx');\n"],
+  "mappings": ";;AAAA,UAAQ,IAAI,eAAe;",
   "names": []
 }

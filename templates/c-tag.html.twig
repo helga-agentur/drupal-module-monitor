@@ -1,0 +1,15 @@
+{#
+/**
+ * @var text
+ * @var color
+ */
+#}
+
+{% set classes = [
+  'c-tag',
+  color ? 'c-tag--color',
+] %}
+
+<div class="c-tag">
+  {{ text|raw }}
+</div>

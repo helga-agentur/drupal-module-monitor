@@ -21,6 +21,13 @@
  */
 #}
 
+{{ attach_library('monitor/monitor') }}
+
+{% include '@monitor/c-tag.html.twig' with {
+  text:  '9.4.2. &middot; 75',
+  color: 'green',
+} %}
+
 {% set currentProject = null %}
 
 <table>
