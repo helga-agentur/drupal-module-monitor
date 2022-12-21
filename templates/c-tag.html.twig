@@ -1,15 +1,15 @@
 {#
 /**
  * @var text
- * @var color
+ * @var risk
  */
 #}
 
 {% set classes = [
   'c-tag',
-  color ? 'c-tag--color',
+  risk ? 'c-tag--' ~ risk ~ '-risk',
 ] %}
 
-<div class="c-tag">
+<div class="{{ classes|join(' ')|trim }}">
   {{ text|raw }}
 </div>

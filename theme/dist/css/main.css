@@ -1,4 +1,29 @@
 .c-tag {
-  padding: 10px 30px;
-  background-color: fuchsia;
+  width: -moz-max-content;
+  width: max-content;
+  padding: 5px 18px;
+  color: #3c3c3c;
+  background-color: #f0f0f0;
+  border-radius: 30px;
+}
+.c-tag--no-risk {
+  color: #0b6a38;
+  background-color: #d1f0c1;
+}
+.c-tag--low-risk {
+  color: #9b7700;
+  background-color: #fffcb1;
+}
+.c-tag--moderate-risk {
+  color: #d04800;
+  background-color: #ffe4ce;
+}
+.c-tag--high-risk {
+  color: #bf2626;
+  background-color: #fcdddd;
+}
+
+html {
+  font-size: 18px;
+  color: #000000;
 }

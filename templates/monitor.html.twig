@@ -23,48 +23,55 @@
 
 {{ attach_library('monitor/monitor') }}
 
-{% include '@monitor/c-tag.html.twig' with {
-  text:  '9.4.2. &middot; 75',
-  color: 'green',
-} %}
-
 {% set currentProject = null %}
 
 <table>
   <thead>
-    <tr>
-      <th>Projekt</th>
-      <th>Drupal</th>
-      <th>PHP</th>
-      <th>Head</th>
-      <th>Commit</th>
-      <th>Node</th>
-    </tr>
+  <tr>
+    <th>Projekt</th>
+    <th>Drupal</th>
+    <th>PHP</th>
+    <th>Head</th>
+    <th>Commit</th>
+    <th>Node</th>
+  </tr>
   </thead>
 
   {% for project in monitor.projects %}
     <tbody>
 
+    <tr>
+      <td>
+        <h2>{{ project.identifier }}</h2>
+      </td>
+    </tr>
+
+    {% for environment in project.environments %}
       <tr>
         <td>
-          <h2>{{ project.identifier }}</h2>
+          <p>{{ environment.identifier }}</p>
+          <p>Values updated {{ environment.timestamp|date("d.m.Y H:i:s") }}</p>
         </td>
+
+        <td>
+          {% include '@monitor/c-tag.html.twig' with {
+            text: environment.drupal.version,
+            risk: environment.drupal.risk,
+          } %}
+        </td>
+
+        <td>
+          {% include '@monitor/c-tag.html.twig' with {
+            text: environment.php.version,
+            risk: environment.php.risk,
+          } %}
+        </td>
+
+        <td><a href="{{ environment.git.headUrl }}">{{ environment.git.head }}</a></td>
+        <td><a href="{{ environment.git.commitUrl }}">{{ environment.git.commit }}</a></td>
+        <td>{{ environment.node.version }}</td>
       </tr>
-
-      {% for environment in project.environments %}
-          <tr>
-            <td>
-              <p>{{ environment.identifier }}</p>
-              <p>Values updated {{ environment.timestamp|date("d.m.Y H:i:s") }}</p>
-            </td>
-
-            <td>{{ environment.drupal.version }}</td>
-            <td>{{ environment.php.version }}</td>
-            <td><a href="{{ environment.git.headUrl }}">{{ environment.git.head }}</a></td>
-            <td><a href="{{ environment.git.commitUrl }}">{{ environment.git.commit }}</a></td>
-            <td>{{ environment.node.version }}</td>
-          </tr>
-      {% endfor %}
+    {% endfor %}
 
     </tbody>
   {% endfor %}

@@ -10,9 +10,11 @@ $projects =  [
         'timestamp' => time(),
         'drupal' => [
           'version' => '9.4.2',
+          'risk' => 'no',
         ],
         'php' => [
           'version' => '7.4.1',
+          'risk' => 'low',
         ],
         'node' => [
           'version' => '18.9.0',
@@ -30,9 +32,11 @@ $projects =  [
         'timestamp' => time(),
         'drupal' => [
           'version' => '9.4.2',
+          'risk' => 'moderate',
         ],
         'php' => [
           'version' => '7.4.1',
+          'risk' => 'high',
         ],
         'git' => [
           'head' => 'detached at v1.0.3',
@@ -55,9 +59,11 @@ $projects =  [
         'host' => 'rondo-online.com',
         'drupal' => [
           'version' => '9.2.2',
+          'risk' => 'moderate',
         ],
         'php' => [
           'version' => '8.1.1',
+          'risk' => 'high',
         ],
         'git' => [
           'head' => 'detached at v1.2.3',
@@ -75,9 +81,11 @@ $projects =  [
         'host' => 'rondo-online.com',
         'drupal' => [
           'version' => '9.2.2',
+          'risk' => 'no',
         ],
         'php' => [
           'version' => '8.1.1',
+          'risk' => 'moderate',
         ],
         'git' => [
           'head' => 'detached at v1.3.0',
@@ -95,9 +103,11 @@ $projects =  [
         'host' => 'stage.rondo-online.com',
         'drupal' => [
           'version' => '9.2.2',
+          'risk' => 'no',
         ],
         'php' => [
           'version' => '8.1.1',
+          'risk' => 'no',
         ],
         'git' => [
           'head' => '6392bf3',
