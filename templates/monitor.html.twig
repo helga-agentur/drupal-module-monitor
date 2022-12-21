@@ -42,7 +42,9 @@
 
     <tr>
       <td>
-        <h2>{{ project.identifier }}</h2>
+        {% include '@monitor/c-collapsible-trigger.html.twig' with {
+          title: project.identifier,
+        } %}
       </td>
     </tr>
 

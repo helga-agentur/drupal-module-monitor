@@ -1,0 +1,13 @@
+@use 's-animations';
+
+@mixin transition($props...) {
+    @if length($props) == 1 {
+        transition: $props s-animations.$transition-duration s-animations.$transition-timing;
+    }
+
+    @if length($props) > 1 {
+        transition-timing-function: s-animations.$transition-timing;
+        transition-duration: s-animations.$transition-duration;
+        transition-property: $props;
+    }
+}

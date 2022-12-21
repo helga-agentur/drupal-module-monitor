@@ -1,0 +1,21 @@
+@use 's-colors';
+@use 't-transition';
+
+.c-collapsible-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1px solid s-colors.$black;
+  border-radius: 2px;
+
+  &__angle {
+    width: 6px;
+    height: 6px;
+    border: 1px solid;
+    border-color: transparent transparent s-colors.$black s-colors.$black;
+    transform: translateY(-1px) rotate(-45deg);
+    @include t-transition.transition(transform);
+  }
+}

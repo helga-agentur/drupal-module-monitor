@@ -1,3 +1,8 @@
+html {
+  font-size: 18px;
+  color: #000000;
+}
+
 .c-tag {
   width: -moz-max-content;
   width: max-content;
@@ -23,7 +28,32 @@
   background-color: #fcdddd;
 }
 
-html {
-  font-size: 18px;
-  color: #000000;
+.c-collapsible-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #000000;
+  border-radius: 2px;
+}
+.c-collapsible-icon__angle {
+  width: 6px;
+  height: 6px;
+  border: 1px solid;
+  border-color: transparent transparent #000000 #000000;
+  transform: translateY(-1px) rotate(-45deg);
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+}
+
+.c-collapsible-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.c-collapsible-trigger:hover .c-collapsible-icon {
+  border-width: 2px;
+}
+.c-collapsible-trigger:hover .c-collapsible-icon__angle {
+  border-width: 2px;
 }

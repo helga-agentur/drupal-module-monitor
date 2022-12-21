@@ -1,0 +1,15 @@
+.c-collapsible-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  &:hover {
+    .c-collapsible-icon {
+      border-width: 2px;
+
+      &__angle {
+        border-width: 2px;
+      }
+    }
+  }
+}
