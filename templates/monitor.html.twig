@@ -23,62 +23,74 @@
 
 {{ attach_library('monitor/monitor') }}
 
-{% set currentProject = null %}
+<div class="l-monitor">
+  <header class="l-monitor__header c-section">
+        <div class="l-monitor__header-content c-section__content u-grid">
+          <div>Projekt</div>
+          <div>Drupal</div>
+          <div>PHP</div>
+          <div>Head</div>
+          <div>Commit</div>
+          <div>Node</div>
+        </div>
+  </header>
 
-<table>
-  <thead>
-  <tr>
-    <th>Projekt</th>
-    <th>Drupal</th>
-    <th>PHP</th>
-    <th>Head</th>
-    <th>Commit</th>
-    <th>Node</th>
-  </tr>
-  </thead>
+  <main class="l-monitor__list">
 
-  {% for project in monitor.projects %}
-    <tbody>
+    {% for project in monitor.projects %}
 
-    <tr>
-      <td>
-        {% include '@monitor/c-collapsible-trigger.html.twig' with {
-          title: project.identifier,
-        } %}
-      </td>
-    </tr>
+      {% set projectClasses = [
+        'l-monitor__project',
+        'l-monitor__project--' ~ cycle(['odd', 'even'], loop.index0),
+        'c-section',
+      ] %}
 
-    {% for environment in project.environments %}
-      <tr>
-        <td>
-          <p>{{ environment.identifier }}</p>
-          <p>Values updated {{ environment.timestamp|date("d.m.Y H:i:s") }}</p>
-        </td>
-
-        <td>
-          {% include '@monitor/c-tag.html.twig' with {
-            text: environment.drupal.version,
-            risk: environment.drupal.risk,
+      <div class="{{ projectClasses|join(' ')|trim }}">
+        <div class="l-monitor__project-title c-section__content">
+          {% include '@monitor/c-collapsible-trigger.html.twig' with {
+            title: project.identifier,
           } %}
-        </td>
+        </div>
 
-        <td>
-          {% include '@monitor/c-tag.html.twig' with {
-            text: environment.php.version,
-            risk: environment.php.risk,
-          } %}
-        </td>
+        {% for environment in project.environments %}
 
-        <td><a href="{{ environment.git.headUrl }}">{{ environment.git.head }}</a></td>
-        <td><a href="{{ environment.git.commitUrl }}">{{ environment.git.commit }}</a></td>
-        <td>{{ environment.node.version }}</td>
-      </tr>
+          <div class="l-monitor__environment c-section__content u-grid">
+            <div>
+              <p class="l-monitor__host">
+                <a href="{{ environment.host }}">{{ environment.identifier }}</a>
+              </p>
+
+              <p class="l-monitor__updated u-small-text">
+                Values updated {{ environment.timestamp|date("d.m.Y H:i:s") }}
+              </p>
+            </div>
+
+            <div>
+              {% include '@monitor/c-tag.html.twig' with {
+                text: environment.drupal.version,
+                risk: environment.drupal.risk,
+              } %}
+            </div>
+
+            <div>
+              {% include '@monitor/c-tag.html.twig' with {
+                text: environment.php.version,
+                risk: environment.php.risk,
+              } %}
+            </div>
+
+            <div><a href="{{ environment.git.headUrl }}">{{ environment.git.head }}</a></div>
+            <div><a href="{{ environment.git.commitUrl }}">{{ environment.git.commit }}</a></div>
+            <div>{{ environment.node.version }}</div>
+          </div>
+
+        {% endfor %}
+
+      </div>
+
     {% endfor %}
 
-    </tbody>
-  {% endfor %}
-
-</table>
-
+  </main>
+</div>
 
 

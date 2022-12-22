@@ -1,0 +1,14 @@
+@use 's-global';
+
+$vertical-padding: 2.5rem;
+
+.c-section {
+  padding: $vertical-padding 0;
+
+  &__content {
+    width: 100%;
+    max-width: s-global.$section-max-width;
+    margin: 0 auto;
+    padding: 0 s-global.$section-side-padding;
+  }
+}

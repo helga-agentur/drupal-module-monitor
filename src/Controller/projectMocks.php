@@ -20,7 +20,7 @@ $projects =  [
           'version' => '18.9.0',
         ],
         'git' => [
-          'head' => 'detached at v1.0.2',
+          'head' => 'v1.0.2',
           'headUrl' => '#',
           'commit' => '9739f87',
           'commitUrl' => '#',
@@ -39,7 +39,7 @@ $projects =  [
           'risk' => 'high',
         ],
         'git' => [
-          'head' => 'detached at v1.0.3',
+          'head' => 'v1.0.3',
           'headUrl' => '#',
           'commit' => '04988d3',
           'commitUrl' => '#',
@@ -66,7 +66,7 @@ $projects =  [
           'risk' => 'high',
         ],
         'git' => [
-          'head' => 'detached at v1.2.3',
+          'head' => 'v1.2.3',
           'headUrl' => '#',
           'commit' => '37590a8f',
           'commitUrl' => '#',
@@ -88,7 +88,7 @@ $projects =  [
           'risk' => 'moderate',
         ],
         'git' => [
-          'head' => 'detached at v1.3.0',
+          'head' => 'v1.3.0',
           'headUrl' => '#',
           'commit' => '37590a8f',
           'commitUrl' => '#',
