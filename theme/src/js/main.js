@@ -1,1 +1,1 @@
-console.log('Hello Worldxx');
+import './CollapsibleItem.js';

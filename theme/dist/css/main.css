@@ -1,8 +1,3 @@
-html {
-  font-size: 18px;
-  color: #000000;
-}
-
 .u-grid {
   display: grid;
   grid-column-gap: 2rem;
@@ -48,22 +43,41 @@ html {
   background-color: #fcdddd;
 }
 
+.c-environment {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.c-environment__host, .c-environment__updated {
+  margin: 0;
+}
+
+.c-collapsible-item__detail {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+}
+
 .c-collapsible-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
+  width: 1rem;
+  height: 1rem;
   border: 1px solid #000000;
   border-radius: 2px;
 }
-.c-collapsible-icon__angle {
-  width: 6px;
-  height: 6px;
-  border: 1px solid;
-  border-color: transparent transparent #000000 #000000;
-  transform: translateY(-1px) rotate(-45deg);
+.c-collapsible-icon svg {
+  width: 0.4rem;
   transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+}
+.c-collapsible-icon svg path {
+  fill: #000000;
+  stroke: #000000;
+  stroke-width: 0;
+}
+
+.c-collapsible-item[data-collapsible-is-open] .c-collapsible-icon svg {
+  transform: rotate(180deg);
 }
 
 .c-collapsible-trigger {
@@ -73,19 +87,21 @@ html {
   width: -moz-max-content;
   width: max-content;
   margin: 0;
+  font-size: 1.2rem;
   cursor: pointer;
 }
 .c-collapsible-trigger:hover .c-collapsible-icon {
   border-width: 2px;
 }
-.c-collapsible-trigger:hover .c-collapsible-icon__angle {
-  border-width: 2px;
+.c-collapsible-trigger:hover .c-collapsible-icon svg path {
+  stroke-width: 1px;
 }
 
 .l-monitor__header {
   position: sticky;
   top: 78px;
   z-index: 100;
+  font-size: 1rem;
   font-weight: 700;
   background-color: #ffffff;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
@@ -96,13 +112,7 @@ html {
 .l-monitor__project--even {
   background-color: #ffffff;
 }
-.l-monitor__environment {
-  padding: 1rem 0;
-}
-.l-monitor__host, .l-monitor__updated {
-  margin: 0;
-}
 .l-monitor .c-collapsible-trigger {
   margin-bottom: 0.5rem;
-  transform: translateX(-46px);
+  transform: translateX(-28px);
 }

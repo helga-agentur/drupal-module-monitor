@@ -1,0 +1,52 @@
+{#
+/**
+ * @var identifier
+ * @var host
+ * @var timestamp
+ * @var drupalVersion
+ * @var drupalRisk
+ * @var phpVersion
+ * @var phpRisk
+ * @var gitHeadUrl
+ * @var gitHeadName
+ * @var gitCommitUrl
+ * @var gitCommitHash
+ * @var nodeVersion
+ */
+#}
+
+<div class="c-environment c-section__content u-grid">
+  <div>
+    <p class="c-environment__host">
+      <a href="{{ host }}">{{ identifier }}</a>
+    </p>
+
+    <p class="c-environment__updated u-small-text">
+      Values updated {{ timestamp|date("d.m.Y H:i:s") }}
+    </p>
+  </div>
+
+  <div>
+    {% include '@monitor/c-tag.html.twig' with {
+      text: drupalVersion,
+      risk: drupalRisk,
+    } %}
+  </div>
+
+  <div>
+    {% include '@monitor/c-tag.html.twig' with {
+      text: phpVersion,
+      risk: phpRisk,
+    } %}
+  </div>
+
+  <div>
+    <a href="{{ gitHeadUrl }}">{{ gitHeadName }}</a>
+  </div>
+
+  <div>
+    <a href="{{ gitCommitUrl }}">{{ gitCommitHash }}</a>
+  </div>
+
+  <div>{{ nodeVersion }}</div>
+</div>

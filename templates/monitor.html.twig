@@ -46,45 +46,54 @@
       ] %}
 
       <div class="{{ projectClasses|join(' ')|trim }}">
-        <div class="l-monitor__project-title c-section__content">
-          {% include '@monitor/c-collapsible-trigger.html.twig' with {
-            title: project.identifier,
-          } %}
-        </div>
 
-        {% for environment in project.environments %}
-
-          <div class="l-monitor__environment c-section__content u-grid">
-            <div>
-              <p class="l-monitor__host">
-                <a href="{{ environment.host }}">{{ environment.identifier }}</a>
-              </p>
-
-              <p class="l-monitor__updated u-small-text">
-                Values updated {{ environment.timestamp|date("d.m.Y H:i:s") }}
-              </p>
-            </div>
-
-            <div>
-              {% include '@monitor/c-tag.html.twig' with {
-                text: environment.drupal.version,
-                risk: environment.drupal.risk,
+        {% embed '@monitor/c-collapsible-item.html.twig' with {
+          collapsibleGroupId: 'monitor',
+        } %}
+          {% block collapsibleSummary %}
+            <div class="l-monitor__project-title c-section__content">
+              {% include '@monitor/c-collapsible-trigger.html.twig' with {
+                title: project.identifier,
               } %}
             </div>
 
-            <div>
-              {% include '@monitor/c-tag.html.twig' with {
-                text: environment.php.version,
-                risk: environment.php.risk,
-              } %}
-            </div>
+            {% include '@monitor/c-environment.html.twig' with {
+              identifier:    project.environments.0.identifier,
+              host:          project.environments.0.host,
+              timestamp:     project.environments.0.timestamp,
+              drupalVersion: project.environments.0.drupal.version,
+              drupalRisk:    project.environments.0.drupal.risk,
+              phpVersion:    project.environments.0.php.version,
+              phpRisk:       project.environments.0.php.risk,
+              gitHeadUrl:    project.environments.0.git.headUrl,
+              gitHeadName:   project.environments.0.git.head,
+              gitCommitUrl:  project.environments.0.git.commitUrl,
+              gitCommitHash: project.environments.0.git.commit,
+              nodeVersion:   project.environments.0.node.version,
+            } %}
+          {% endblock %}
 
-            <div><a href="{{ environment.git.headUrl }}">{{ environment.git.head }}</a></div>
-            <div><a href="{{ environment.git.commitUrl }}">{{ environment.git.commit }}</a></div>
-            <div>{{ environment.node.version }}</div>
-          </div>
-
-        {% endfor %}
+          {% block collapsibleDetail %}
+            {% for environment in project.environments %}
+              {% if loop.index0 > 0 %}
+                {% include '@monitor/c-environment.html.twig' with {
+                  identifier:    environment.identifier,
+                  host:          environment.host,
+                  timestamp:     environment.timestamp,
+                  drupalVersion: environment.drupal.version,
+                  drupalRisk:    environment.drupal.risk,
+                  phpVersion:    environment.php.version,
+                  phpRisk:       environment.php.risk,
+                  gitHeadUrl:    environment.git.headUrl,
+                  gitHeadName:   environment.git.head,
+                  gitCommitUrl:  environment.git.commitUrl,
+                  gitCommitHash: environment.git.commit,
+                  nodeVersion:   environment.node.version,
+                } %}
+              {% endif %}
+            {% endfor %}
+          {% endblock %}
+        {% endembed %}
 
       </div>
 

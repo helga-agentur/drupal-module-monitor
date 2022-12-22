@@ -7,6 +7,7 @@
     position: sticky;
     top: 78px;
     z-index: s-z-index.$header;
+    font-size: 1rem;
     font-weight: s-typography.$font-weight-bold;
     background-color: s-colors.$white;
     box-shadow: 0 4px 8px rgba(s-colors.$black, 0.04);
@@ -20,19 +21,6 @@
     &--even {
       background-color: s-colors.$white;
     }
-
-    &-title {
-    }
-  }
-
-  &__environment {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  }
-
-  &__host,
-  &__updated {
-    margin: 0;
   }
 
   .c-collapsible-trigger {

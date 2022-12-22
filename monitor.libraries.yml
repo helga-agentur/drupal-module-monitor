@@ -3,3 +3,5 @@ monitor:
   css:
     theme:
       theme/dist/css/main.css: {}
+  js:
+    theme/dist/js/main.js: {}

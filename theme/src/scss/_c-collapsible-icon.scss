@@ -5,17 +5,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 18px;
-  height: 18px;
+  width: 1rem;
+  height: 1rem;
   border: 1px solid s-colors.$black;
   border-radius: 2px;
 
-  &__angle {
-    width: 6px;
-    height: 6px;
-    border: 1px solid;
-    border-color: transparent transparent s-colors.$black s-colors.$black;
-    transform: translateY(-1px) rotate(-45deg);
+  svg {
+    width: 0.4rem;
     @include t-transition.transition(transform);
+
+    path {
+      fill: s-colors.$text;
+      stroke: s-colors.$text;
+      stroke-width: 0;
+    }
+  }
+}
+
+.c-collapsible-item[data-collapsible-is-open] {
+  .c-collapsible-icon {
+    svg {
+      transform: rotate(180deg);
+    }
   }
 }

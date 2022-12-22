@@ -6,7 +6,7 @@ $projects =  [
     'environments' => [
       [
         'identifier' => 'Live',
-        'host' => 'bystronic.com',
+        'host' => 'https://bystronic.com',
         'timestamp' => time(),
         'drupal' => [
           'version' => '9.4.2',
@@ -28,7 +28,7 @@ $projects =  [
       ],
       [
         'identifier' => 'Integration',
-        'host' => 'integration.bystronic.com',
+        'host' => 'https://integration.bystronic.com',
         'timestamp' => time(),
         'drupal' => [
           'version' => '9.4.2',
@@ -56,7 +56,7 @@ $projects =  [
     'environments' => [
       [
         'identifier' => 'Live',
-        'host' => 'rondo-online.com',
+        'host' => 'https://rondo-online.com',
         'drupal' => [
           'version' => '9.2.2',
           'risk' => 'moderate',
@@ -77,8 +77,8 @@ $projects =  [
         'timestamp' => time(),
       ],
       [
-        'identifier' => 'Live',
-        'host' => 'rondo-online.com',
+        'identifier' => 'Integration',
+        'host' => 'https://integration.rondo-online.com',
         'drupal' => [
           'version' => '9.2.2',
           'risk' => 'no',
@@ -100,7 +100,7 @@ $projects =  [
       ],
       [
         'identifier' => 'Stage',
-        'host' => 'stage.rondo-online.com',
+        'host' => 'https://stage.rondo-online.com',
         'drupal' => [
           'version' => '9.2.2',
           'risk' => 'no',
