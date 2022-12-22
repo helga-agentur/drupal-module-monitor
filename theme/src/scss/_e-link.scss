@@ -1,0 +1,17 @@
+@use 's-colors';
+
+.e-link {
+  text-decoration: underline;
+
+  &:link,
+  &:visited {
+    color: s-colors.$text;
+  }
+
+  &:hover,
+  &:focus-visible,
+  &:active {
+    color: s-colors.$text;
+    text-decoration: none;
+  }
+}

@@ -69,6 +69,7 @@
               gitHeadName:   project.environments.0.git.head,
               gitCommitUrl:  project.environments.0.git.commitUrl,
               gitCommitHash: project.environments.0.git.commit,
+              gitCommitDate: project.environments.0.git.commitDate,
               nodeVersion:   project.environments.0.node.version,
             } %}
           {% endblock %}
@@ -88,6 +89,7 @@
                   gitHeadName:   environment.git.head,
                   gitCommitUrl:  environment.git.commitUrl,
                   gitCommitHash: environment.git.commit,
+                  gitCommitDate: environment.git.commitDate,
                   nodeVersion:   environment.node.version,
                 } %}
               {% endif %}

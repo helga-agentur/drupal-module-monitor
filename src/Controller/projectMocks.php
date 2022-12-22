@@ -24,6 +24,7 @@ $projects =  [
           'headUrl' => '#',
           'commit' => '9739f87',
           'commitUrl' => '#',
+          'commitDate' => '02.11.2022',
         ],
       ],
       [
@@ -43,6 +44,7 @@ $projects =  [
           'headUrl' => '#',
           'commit' => '04988d3',
           'commitUrl' => '#',
+          'commitDate' => '02.11.2022',
         ],
         'node' => [
           'version' => '18.9.0',
@@ -70,6 +72,7 @@ $projects =  [
           'headUrl' => '#',
           'commit' => '37590a8f',
           'commitUrl' => '#',
+          'commitDate' => '02.11.2022',
         ],
         'node' => [
           'version' => '18.9.0',
@@ -92,6 +95,7 @@ $projects =  [
           'headUrl' => '#',
           'commit' => '37590a8f',
           'commitUrl' => '#',
+          'commitDate' => '02.11.2022',
         ],
         'node' => [
           'version' => '18.9.0',
@@ -112,8 +116,9 @@ $projects =  [
         'git' => [
           'head' => '6392bf3',
           'headUrl' => '#',
-          'commit' => 'mnb',
+          'commit' => '1564979',
           'commitUrl' => '#',
+          'commitDate' => '02.11.2022',
         ],
         'node' => [
           'version' => '18.9.0',

@@ -3,27 +3,31 @@
 .c-tag {
   width: max-content;
   padding: 5px 18px;
-  color: s-colors.$dark-grey;
-  background-color: s-colors.$pale-grey;
+  color: s-colors.$text;
+  border: 1px solid s-colors.$text;
   border-radius: 30px;
 
   &--no-risk {
     color: s-colors.$dark-green;
     background-color: s-colors.$pale-green;
+    border: none;
   }
 
   &--low-risk {
     color: s-colors.$dark-yellow;
     background-color: s-colors.$pale-yellow;
+    border: none;
   }
 
   &--moderate-risk {
     color: s-colors.$dark-orange;
     background-color: s-colors.$pale-orange;
+    border: none;
   }
 
   &--high-risk {
     color: s-colors.$dark-red;
     background-color: s-colors.$pale-red;
+    border: none;
   }
 }

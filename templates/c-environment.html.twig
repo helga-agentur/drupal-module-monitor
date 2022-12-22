@@ -11,17 +11,18 @@
  * @var gitHeadName
  * @var gitCommitUrl
  * @var gitCommitHash
+ * @var gitCommitDate
  * @var nodeVersion
  */
 #}
 
 <div class="c-environment c-section__content u-grid">
   <div>
-    <p class="c-environment__host">
-      <a href="{{ host }}">{{ identifier }}</a>
+    <p class="c-environment__paragraph">
+      <a class="e-link" href="{{ host }}">{{ identifier }}</a>
     </p>
 
-    <p class="c-environment__updated u-small-text">
+    <p class="c-environment__paragraph u-small-text">
       Values updated {{ timestamp|date("d.m.Y H:i:s") }}
     </p>
   </div>
@@ -41,11 +42,29 @@
   </div>
 
   <div>
-    <a href="{{ gitHeadUrl }}">{{ gitHeadName }}</a>
+    <p>
+      {% if gitHeadUrl %}
+        <a class="e-link" href="{{ gitHeadUrl }}">{{ gitHeadName }}</a>
+      {% else %}
+        {{ gitHeadName }}
+      {% endif %}
+    </p>
   </div>
 
   <div>
-    <a href="{{ gitCommitUrl }}">{{ gitCommitHash }}</a>
+    <p class="c-environment__paragraph">
+      {% if gitCommitUrl %}
+        <a class="e-link" href="{{ gitCommitUrl }}">{{ gitCommitHash }}</a>
+      {% else %}
+        {{ gitCommitHash }}
+      {% endif %}
+    </p>
+
+    {% if gitCommitDate %}
+      <p class="c-environment__paragraph u-small-text">
+        {{ gitCommitDate }}
+      </p>
+    {% endif %}
   </div>
 
   <div>{{ nodeVersion }}</div>
