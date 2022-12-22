@@ -1,20 +1,4 @@
 {#
-{% for project in monitor.projects %}
-  Project: {{ project.identifier }}<br/>
-  {% for environment in project.environments %}
-    Environment: {{ environment.identifier }}<br/>
-    Host: {{ environment.host }}<br/>
-    Updated: {{ environment.timestamp|date("d.m.Y H:i:s") }}<br/>
-    Drupal: {{ environment.drupal.version }}<br/>
-    PHP: {{ environment.php.version }}<br/>
-    Node: {{ environment.node.version }}<br/>
-    Git Commit: <a href="{{ environment.git.commitUrl }}">{{ environment.git.commit }}</a><br/>
-    Git Head: <a href="{{ environment.git.headUrl }}">{{ environment.git.head }}</a><br/><br/>
-  {% endfor %}
-{% endfor %}
-#}
-
-{#
 /**
  * @var monitor.instances
  *
