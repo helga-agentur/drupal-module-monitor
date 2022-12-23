@@ -1,0 +1,19 @@
+.c-collapsible-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: max-content;
+  margin: 0;
+  font-size: 1.2rem;
+  cursor: pointer;
+
+  &:hover {
+    .c-collapsible-icon {
+      border-width: 2px;
+
+      svg path {
+        stroke-width: 1px;
+      }
+    }
+  }
+}

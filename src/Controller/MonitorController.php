@@ -4,6 +4,7 @@ namespace Drupal\monitor\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\example\ExampleInterface;
+use Drupal\monitor\mockdata\ProjectMocks;
 use Drupal\monitor\MonitorStorage;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -31,9 +32,15 @@ class MonitorController extends ControllerBase {
    * Renders the monitor
    */
   public function build() {
-    $projects = array_map(function ($project) {
-      return $this->monitorStorage->getProjectData($project);
-    }, $this->monitorStorage->getProjects());
+    $useMockdata = true;
+
+    if ($useMockdata) {
+      include_once 'projectMocks.php';
+    } else {
+      $projects = array_map(function ($project) {
+        return $this->monitorStorage->getProjectData($project);
+      }, $this->monitorStorage->getProjects());
+    }
 
     return [
       '#theme' => 'monitor',

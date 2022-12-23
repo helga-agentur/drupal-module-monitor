@@ -1,0 +1,134 @@
+.u-grid {
+  display: grid;
+  grid-column-gap: 2rem;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+}
+
+.u-small-text {
+  font-size: 0.8rem;
+}
+
+.e-link {
+  text-decoration: underline;
+}
+.e-link:link, .e-link:visited {
+  color: #000000;
+}
+.e-link:hover, .e-link:focus-visible, .e-link:active {
+  color: #000000;
+  text-decoration: none;
+}
+
+.c-section {
+  padding: 2.5rem 0;
+}
+.c-section__content {
+  width: 100%;
+  max-width: 1156px;
+  margin: 0 auto;
+  padding: 0 18px;
+}
+
+.c-tag {
+  width: -moz-max-content;
+  width: max-content;
+  padding: 5px 18px;
+  color: #000000;
+  border: 1px solid #000000;
+  border-radius: 30px;
+}
+.c-tag--no-risk {
+  color: #0b6a38;
+  background-color: #d1f0c1;
+  border: none;
+}
+.c-tag--low-risk {
+  color: #9b7700;
+  background-color: #fffcb1;
+  border: none;
+}
+.c-tag--moderate-risk {
+  color: #d04800;
+  background-color: #ffe4ce;
+  border: none;
+}
+.c-tag--high-risk {
+  color: #bf2626;
+  background-color: #fcdddd;
+  border: none;
+}
+
+.c-environment {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.c-environment__paragraph {
+  margin: 0;
+}
+
+.c-collapsible-item__detail {
+  height: 0;
+  overflow: hidden;
+  transition: height 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+}
+
+.c-collapsible-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid #000000;
+  border-radius: 2px;
+}
+.c-collapsible-icon svg {
+  width: 0.4rem;
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+}
+.c-collapsible-icon svg path {
+  fill: #000000;
+  stroke: #000000;
+  stroke-width: 0;
+}
+
+.c-collapsible-item[data-collapsible-is-open] .c-collapsible-icon svg {
+  transform: rotate(180deg);
+}
+
+.c-collapsible-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: -moz-max-content;
+  width: max-content;
+  margin: 0;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.c-collapsible-trigger:hover .c-collapsible-icon {
+  border-width: 2px;
+}
+.c-collapsible-trigger:hover .c-collapsible-icon svg path {
+  stroke-width: 1px;
+}
+
+.l-monitor__header {
+  position: sticky;
+  top: 78px;
+  z-index: 100;
+  font-size: 1rem;
+  font-weight: 700;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.04);
+}
+.l-monitor__project--odd {
+  background-color: #fafafa;
+}
+.l-monitor__project--even {
+  background-color: #ffffff;
+}
+.l-monitor .c-collapsible-trigger {
+  margin-bottom: 0.5rem;
+  transform: translateX(-28px);
+}

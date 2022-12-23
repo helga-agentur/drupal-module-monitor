@@ -1,0 +1,15 @@
+{#
+/**
+ * @var text
+ * @var risk
+ */
+#}
+
+{% set classes = [
+  'c-tag',
+  risk ? 'c-tag--' ~ risk ~ '-risk',
+] %}
+
+<div class="{{ classes|join(' ')|trim }}">
+  {{ text|raw }}
+</div>

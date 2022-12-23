@@ -1,0 +1,30 @@
+@use 's-colors';
+@use 's-typography';
+@use 's-z-index';
+
+.l-monitor {
+  &__header {
+    position: sticky;
+    top: 78px;
+    z-index: s-z-index.$header;
+    font-size: 1rem;
+    font-weight: s-typography.$font-weight-bold;
+    background-color: s-colors.$white;
+    box-shadow: 0 4px 8px rgba(s-colors.$black, 0.04);
+  }
+
+  &__project {
+    &--odd {
+      background-color: s-colors.$pale-grey;
+    }
+
+    &--even {
+      background-color: s-colors.$white;
+    }
+  }
+
+  .c-collapsible-trigger {
+    margin-bottom: 0.5rem;
+    transform: translateX(-28px);
+  }
+}

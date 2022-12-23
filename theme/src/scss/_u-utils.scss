@@ -1,0 +1,10 @@
+.u-grid {
+  display: grid;
+  grid-column-gap: 2rem;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+}
+
+.u-small-text {
+  font-size: 0.8rem;
+}

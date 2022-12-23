@@ -1,0 +1,18 @@
+{#
+/**
+ * @var collapsibleGroupId
+ *
+ * @block collapsibleSummary
+ * @block collapsibleDetail
+ */
+#}
+
+<collapsible-item class="c-collapsible-item" data-collapsible-group-id="{{ collapsibleGroupId }}">
+    <div class="c-collapsible-item__summary">
+        {% block collapsibleSummary %}{% endblock %}
+    </div>
+
+    <div class="c-collapsible-item__detail" data-collapsible-detail>
+        {% block collapsibleDetail %}{% endblock %}
+    </div>
+</collapsible-item>

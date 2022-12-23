@@ -1,0 +1,9 @@
+@use 's-animations';
+
+.c-collapsible-item {
+    &__detail {
+        height: 0;
+        overflow: hidden;
+        transition: height s-animations.$transition-duration s-animations.$transition-timing;
+    }
+}
