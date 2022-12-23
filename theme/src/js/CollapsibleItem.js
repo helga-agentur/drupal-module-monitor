@@ -11,7 +11,7 @@ import readAttribute from './readAttribute.js';
  *
  * @attr data-collapsible-is-open  boolen attribute which indicates if the detail section is open
  * @attr data-collapsible-summary  marks the summary section
- * @attr data-collapsible-detail   marks the detail section
+ * @attr data-collapsible-trigger  marks the element that triggers collapse
  */
 class CollapsibleItem extends HTMLElement {
 
@@ -22,10 +22,6 @@ class CollapsibleItem extends HTMLElement {
 
     static #collapsibleToggleEventName = 'collapsibleToggle';
     static #collapsibleOpenAttributeName = 'data-collapsible-is-open';
-
-    constructor() {
-        super();
-    }
 
     connectedCallback() {
         this.#trigger = this.querySelector('[data-collapsible-trigger]');
@@ -47,11 +43,11 @@ class CollapsibleItem extends HTMLElement {
         if (!(this.#detail instanceof HTMLElement)) {
             throw new Error(`CollapsibleItem: this.#detail is expected to be an instance of HTMLElement. Got ${this.#detail} instead`);
         }
-        this.#registerSummaryClickListener();
+        this.#registerTriggerClickListener();
         this.#registerCollapsibleToggleListener();
     }
 
-    #registerSummaryClickListener() {
+    #registerTriggerClickListener() {
         this.#trigger.addEventListener('click', this.#dispatchCollapsibleToggleEvent.bind(this));
     }
 

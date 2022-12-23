@@ -69,11 +69,11 @@
   }
 
   // src/js/CollapsibleItem.js
-  var _trigger, _detail, _isOpen, _collapsibleGroupId, _collapsibleToggleEventName, _collapsibleOpenAttributeName, _registerSummaryClickListener, registerSummaryClickListener_fn, _registerCollapsibleToggleListener, registerCollapsibleToggleListener_fn, _handleCollapsibleToggleEvent, handleCollapsibleToggleEvent_fn, _toggleDetail, toggleDetail_fn, _openDetail, openDetail_fn, _closeDetail, closeDetail_fn, _scrollIntoView, scrollIntoView_fn, _dispatchCollapsibleToggleEvent, dispatchCollapsibleToggleEvent_fn, _isInSameGroupAs, isInSameGroupAs_fn, _isItself, isItself_fn;
+  var _trigger, _detail, _isOpen, _collapsibleGroupId, _collapsibleToggleEventName, _collapsibleOpenAttributeName, _registerTriggerClickListener, registerTriggerClickListener_fn, _registerCollapsibleToggleListener, registerCollapsibleToggleListener_fn, _handleCollapsibleToggleEvent, handleCollapsibleToggleEvent_fn, _toggleDetail, toggleDetail_fn, _openDetail, openDetail_fn, _closeDetail, closeDetail_fn, _scrollIntoView, scrollIntoView_fn, _dispatchCollapsibleToggleEvent, dispatchCollapsibleToggleEvent_fn, _isInSameGroupAs, isInSameGroupAs_fn, _isItself, isItself_fn;
   var _CollapsibleItem = class extends HTMLElement {
     constructor() {
-      super();
-      __privateAdd(this, _registerSummaryClickListener);
+      super(...arguments);
+      __privateAdd(this, _registerTriggerClickListener);
       __privateAdd(this, _registerCollapsibleToggleListener);
       __privateAdd(this, _handleCollapsibleToggleEvent);
       __privateAdd(this, _toggleDetail);
@@ -102,7 +102,7 @@
       if (!(__privateGet(this, _detail) instanceof HTMLElement)) {
         throw new Error(`CollapsibleItem: this.#detail is expected to be an instance of HTMLElement. Got ${__privateGet(this, _detail)} instead`);
       }
-      __privateMethod(this, _registerSummaryClickListener, registerSummaryClickListener_fn).call(this);
+      __privateMethod(this, _registerTriggerClickListener, registerTriggerClickListener_fn).call(this);
       __privateMethod(this, _registerCollapsibleToggleListener, registerCollapsibleToggleListener_fn).call(this);
     }
   };
@@ -113,8 +113,8 @@
   _collapsibleGroupId = new WeakMap();
   _collapsibleToggleEventName = new WeakMap();
   _collapsibleOpenAttributeName = new WeakMap();
-  _registerSummaryClickListener = new WeakSet();
-  registerSummaryClickListener_fn = function() {
+  _registerTriggerClickListener = new WeakSet();
+  registerTriggerClickListener_fn = function() {
     __privateGet(this, _trigger).addEventListener("click", __privateMethod(this, _dispatchCollapsibleToggleEvent, dispatchCollapsibleToggleEvent_fn).bind(this));
   };
   _registerCollapsibleToggleListener = new WeakSet();

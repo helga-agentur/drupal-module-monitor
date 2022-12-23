@@ -1,7 +1,7 @@
 .u-grid {
   display: grid;
   grid-column-gap: 2rem;
-  grid-template-columns: 4fr 2fr 2fr 2fr 2fr 2fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr;
   align-items: center;
 }
 
