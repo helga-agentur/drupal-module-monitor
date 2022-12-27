@@ -1,0 +1,18 @@
+monitor.menu:
+  title: 'Monitor'
+  route_name: monitor.settings
+  parent: system.admin_config
+  description: 'Configure monitor'
+  weight: 50
+
+monitor.menu.settings:
+  title: Settings
+  route_name: monitor.settings
+  parent: monitor.menu
+  weight: 10
+
+monitor.menu.settings.storage:
+  title: Manage Storage
+  route_name: monitor.settings.storage
+  parent: monitor.menu
+  weight: 20

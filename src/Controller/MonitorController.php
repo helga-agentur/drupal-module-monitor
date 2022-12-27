@@ -3,8 +3,7 @@
 namespace Drupal\monitor\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\example\ExampleInterface;
-use Drupal\monitor\mockdata\ProjectMocks;
+use Drupal\monitor\Form\SettingsForm;
 use Drupal\monitor\MonitorStorage;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -32,19 +31,18 @@ class MonitorController extends ControllerBase {
    * Renders the monitor
    */
   public function build() {
-    $useMockdata = true;
-
-    if ($useMockdata) {
-      include_once 'projectMocks.php';
-    } else {
-      $projects = array_map(function ($project) {
+    //check if we should read dummy data
+    $data = match(boolval($this->config(SettingsForm::CONFIG)->get(SettingsForm::CONFIG_DUMMYDATA))) {
+     true => json_decode(file_get_contents(\Drupal::service('extension.list.module')->getPath('monitor') . '/data/data.json')),
+      // read from internal storage
+      default => array_map(function ($project) {
         return $this->monitorStorage->getProjectData($project);
-      }, $this->monitorStorage->getProjects());
-    }
+      }, $this->monitorStorage->getProjects())
+    };
 
     return [
       '#theme' => 'monitor',
-      'projects' => $projects,
+      'projects' => $data,
       '#cache' => [
         'max-age' => 0
       ],

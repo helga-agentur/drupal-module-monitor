@@ -4,12 +4,20 @@ monitor.overview:
     _title: 'Monitor'
     _controller: '\Drupal\monitor\Controller\MonitorController::build'
   requirements:
-    _permission: 'administer users'
+    _permission: 'administer site configuration'
 
-monitor.form.storage.deletion:
-  path: '/admin/monitor'
+monitor.settings.storage:
+  path: '/admin/monitor/storage'
   defaults:
-    _title: 'Delete Storage Items (Project / Environment)'
+    _title: 'Manage Storage (Project / Environment)'
     _form: 'Drupal\monitor\Form\StorageDeletionForm'
   requirements:
-    _permission: 'administer users'
+    _permission: 'administer site configuration'
+
+monitor.settings:
+  path: '/admin/monitor/settings'
+  defaults:
+    _title: 'Settings'
+    _form: 'Drupal\monitor\Form\SettingsForm'
+  requirements:
+    _permission: 'administer site configuration'
