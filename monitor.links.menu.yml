@@ -1,9 +1,15 @@
 monitor.menu:
   title: 'Monitor'
-  route_name: monitor.settings
+  route_name: monitor.overview
   parent: system.admin_config
   description: 'Configure monitor'
   weight: 50
+
+monitor.dashboard:
+  title: Dashboard
+  route_name: monitor.overview
+  parent: monitor.menu
+  weight: 5
 
 monitor.menu.settings:
   title: Settings
