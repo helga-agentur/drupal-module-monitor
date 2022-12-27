@@ -19,7 +19,7 @@
 <div class="c-environment c-section__content u-grid">
   <div>
     <p class="c-environment__paragraph">
-      <a class="e-link" href="{{ host }}">{{ identifier }}</a>
+      <a class="e-link" href="{{ host }}" target="_blank">{{ identifier }}</a>
     </p>
 
     <p class="c-environment__paragraph u-small-text">
@@ -44,7 +44,7 @@
   <div>
     <p>
       {% if gitHeadUrl %}
-        <a class="e-link" href="{{ gitHeadUrl }}">{{ gitHeadName }}</a>
+        <a class="e-link" href="{{ gitHeadUrl }}" target="_blank">{{ gitHeadName }}</a>
       {% else %}
         {{ gitHeadName }}
       {% endif %}
@@ -54,7 +54,7 @@
   <div>
     <p class="c-environment__paragraph">
       {% if gitCommitUrl %}
-        <a class="e-link" href="{{ gitCommitUrl }}">{{ gitCommitHash }}</a>
+        <a class="e-link" href="{{ gitCommitUrl }}" target="_blank">{{ gitCommitHash }}</a>
       {% else %}
         {{ gitCommitHash }}
       {% endif %}
