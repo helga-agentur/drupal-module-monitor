@@ -2,7 +2,7 @@
 
 namespace Drupal\monitor;
 
-use Drupal\Core\TempStore\PrivateTempStoreFactory;
+use Drupal\Core\TempStore\SharedTempStore;
 use Drupal\Core\TempStore\SharedTempStoreFactory;
 
 /**
@@ -16,10 +16,10 @@ class MonitorStorage {
   const PROJECT_NAME = 'projects';
   const ENVIRONMENT_NAME = 'environments';
 
-  protected $monitorDataStore;
+  protected SharedTempStore $monitorDataStore;
 
   /**
-   * @param PrivateTempStoreFactory $sharedTempStore
+   * @param SharedTempStoreFactory $sharedTempStore
    */
   public function __construct(SharedTempStoreFactory $sharedTempStore) {
     $this->monitorDataStore = $sharedTempStore->get(self::TEMP_STORE_NAME);
@@ -128,17 +128,19 @@ class MonitorStorage {
   }
 
   /**
-   * Get all projects
+   * Get all projects alphabetically
    *
    * @return array
    */
   public function getProjects(): array {
     $projects = $this->monitorDataStore->get(self::PROJECT_NAME);
+    asort($projects);
     return $projects ?? [];
   }
 
   /**
    * Get all environments of a specific project
+   * Place "live" in first place, followed by "integration" and then the rest
    *
    * @param string $project
    *
@@ -146,6 +148,18 @@ class MonitorStorage {
    */
   public function getEnvironments(string $project): array {
     $environments = $this->monitorDataStore->get($project . '_' . self::ENVIRONMENT_NAME);
+
+    usort($environments, function($a, $b) {
+      return match (true) {
+        strtolower($a) == 'live' => -1,
+        strtolower($b) == 'live' => 1,
+        strtolower($a) == 'integration' => -1,
+        strtolower($b) == 'integration' => 1,
+        default => 0
+      };
+    });
+
+
     return $environments ?? [];
   }
 
