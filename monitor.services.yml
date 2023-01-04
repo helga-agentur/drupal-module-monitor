@@ -2,3 +2,9 @@ services:
   monitor.storage:
     class: Drupal\monitor\MonitorStorage
     arguments: [ '@tempstore.shared']
+
+  monitor.drupal.version.manager:
+    class: Drupal\monitor\DrupalVersionManager
+
+  monitor.php.version.manager:
+    class: Drupal\monitor\PHPVersionManager
