@@ -32,6 +32,7 @@
       <div class="{{ projectClasses|join(' ')|trim }}">
 
         {% if project.environments|length == 1 %}
+
           <div class="l-monitor__project-title c-section__content">
             {% include '@monitor/c-collapsible-trigger.html.twig' with {
               title:         project.identifier,
@@ -40,21 +41,11 @@
           </div>
 
           {% include '@monitor/c-environment.html.twig' with {
-            identifier:    project.environments.0.identifier,
-            host:          project.environments.0.host,
-            timestamp:     project.environments.0.timestamp,
-            drupalVersion: project.environments.0.drupal.version,
-            drupalRisk:    project.environments.0.drupal.risk,
-            phpVersion:    project.environments.0.php.version,
-            phpRisk:       project.environments.0.php.risk,
-            gitHeadUrl:    project.environments.0.git.headUrl,
-            gitHeadName:   project.environments.0.git.head,
-            gitCommitUrl:  project.environments.0.git.commitUrl,
-            gitCommitHash: project.environments.0.git.commit,
-            gitCommitDate: project.environments.0.git.commitDate,
-            nodeVersion:   project.environments.0.node.version,
+            environment: project.environments.0,
           } %}
+
         {% else %}
+
           {% embed '@monitor/c-collapsible-item.html.twig' with {
             collapsibleGroupId: 'monitor',
           } %}
@@ -67,19 +58,7 @@
               </div>
 
               {% include '@monitor/c-environment.html.twig' with {
-                identifier:    project.environments.0.identifier,
-                host:          project.environments.0.host,
-                timestamp:     project.environments.0.timestamp,
-                drupalVersion: project.environments.0.drupal.version,
-                drupalRisk:    project.environments.0.drupal.risk,
-                phpVersion:    project.environments.0.php.version,
-                phpRisk:       project.environments.0.php.risk,
-                gitHeadUrl:    project.environments.0.git.headUrl,
-                gitHeadName:   project.environments.0.git.head,
-                gitCommitUrl:  project.environments.0.git.commitUrl,
-                gitCommitHash: project.environments.0.git.commit,
-                gitCommitDate: project.environments.0.git.commitDate,
-                nodeVersion:   project.environments.0.node.version,
+                environment: project.environments.0,
               } %}
             {% endblock %}
 
@@ -87,24 +66,13 @@
               {% for environment in project.environments %}
                 {% if loop.index0 > 0 %}
                   {% include '@monitor/c-environment.html.twig' with {
-                    identifier:    environment.identifier,
-                    host:          environment.host,
-                    timestamp:     environment.timestamp,
-                    drupalVersion: environment.drupal.version,
-                    drupalRisk:    environment.drupal.risk,
-                    phpVersion:    environment.php.version,
-                    phpRisk:       environment.php.risk,
-                    gitHeadUrl:    environment.git.headUrl,
-                    gitHeadName:   environment.git.head,
-                    gitCommitUrl:  environment.git.commitUrl,
-                    gitCommitHash: environment.git.commit,
-                    gitCommitDate: environment.git.commitDate,
-                    nodeVersion:   environment.node.version,
+                    environment: environment,
                   } %}
                 {% endif %}
               {% endfor %}
             {% endblock %}
           {% endembed %}
+
         {% endif %}
 
       </div>
