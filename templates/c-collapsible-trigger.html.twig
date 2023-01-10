@@ -10,7 +10,7 @@
   isCollapsible ? 'c-collapsible-trigger--collapsible',
 ] %}
 
-<h2 class="{{ addClasses(classes) }}" data-collapsible-trigger>
+<h2 class="{{ classes|join(' ')|trim }}" data-collapsible-trigger>
   {% if isCollapsible %}
     {% include '@monitor/c-collapsible-icon.html.twig' %}
   {% endif %}
