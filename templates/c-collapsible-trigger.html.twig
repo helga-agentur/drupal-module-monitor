@@ -1,11 +1,19 @@
 {#
 /**
  * @var title
+ * @var isCollapsible
  */
 #}
 
-<h2 class="c-collapsible-trigger" data-collapsible-trigger>
-  {% include '@monitor/c-collapsible-icon.html.twig' %}
+{% set classes = [
+  'c-collapsible-trigger',
+  isCollapsible ? 'c-collapsible-trigger--collapsible',
+] %}
+
+<h2 class="{{ classes|join(' ')|trim }}" data-collapsible-trigger>
+  {% if isCollapsible %}
+    {% include '@monitor/c-collapsible-icon.html.twig' %}
+  {% endif %}
 
   <span class="c-collapsible-trigger__title">{{ title }}</span>
 </h2>

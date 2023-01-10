@@ -19,53 +19,53 @@
 <div class="c-environment c-section__content u-grid">
   <div>
     <p class="c-environment__paragraph">
-      <a class="e-link" href="{{ host }}" target="_blank">{{ identifier }}</a>
+      <a class="e-link" href="{{ environment.host }}" target="_blank">{{ environment.identifier }}</a>
     </p>
 
     <p class="c-environment__paragraph u-small-text">
-      Values updated {{ timestamp|date("d.m.Y H:i:s") }}
+      Values updated {{ environment.timestamp|date("d.m.Y H:i:s") }}
     </p>
   </div>
 
   <div>
     {% include '@monitor/c-tag.html.twig' with {
-      text: drupalVersion,
-      risk: drupalRisk,
+      text: environment.drupal.version,
+      risk: environment.drupal.risk,
     } %}
   </div>
 
   <div>
     {% include '@monitor/c-tag.html.twig' with {
-      text: phpVersion,
-      risk: phpRisk,
+      text: environment.php.version,
+      risk: environment.php.risk,
     } %}
   </div>
 
   <div>
     <p>
-      {% if gitHeadUrl %}
-        <a class="e-link" href="{{ gitHeadUrl }}" target="_blank">{{ gitHeadName }}</a>
+      {% if environment.git.headUrl %}
+        <a class="e-link" href="{{ environment.git.headUrl }}" target="_blank">{{ environment.git.head }}</a>
       {% else %}
-        {{ gitHeadName }}
+        {{ environment.git.head }}
       {% endif %}
     </p>
   </div>
 
   <div>
     <p class="c-environment__paragraph">
-      {% if gitCommitUrl %}
-        <a class="e-link" href="{{ gitCommitUrl }}" target="_blank">{{ gitCommitHash }}</a>
+      {% if environment.git.commitUrl %}
+        <a class="e-link" href="{{ environment.git.commitUrl }}" target="_blank">{{ environment.git.commit }}</a>
       {% else %}
-        {{ gitCommitHash }}
+        {{ environment.git.commit }}
       {% endif %}
     </p>
 
-    {% if gitCommitDate %}
+    {% if environment.git.commitDate %}
       <p class="c-environment__paragraph u-small-text">
-        {{ gitCommitDate }}
+        {{ environment.git.commitDate }}
       </p>
     {% endif %}
   </div>
 
-  <div>{{ nodeVersion }}</div>
+  <div>{{ environment.node.version }}</div>
 </div>

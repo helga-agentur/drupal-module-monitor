@@ -2,6 +2,15 @@
 @use 's-typography';
 @use 's-z-index';
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Helvetica Neue', 'Arial', sans-serif;
+  font-size: 16px;
+}
+
 .l-monitor {
   &__header {
     position: sticky;
@@ -25,6 +34,9 @@
 
   .c-collapsible-trigger {
     margin-bottom: 0.5rem;
-    transform: translateX(-28px);
+
+    &--collapsible {
+      transform: translateX(-28px);
+    }
   }
 }
