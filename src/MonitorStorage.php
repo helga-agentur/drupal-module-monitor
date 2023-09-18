@@ -135,9 +135,14 @@ class MonitorStorage {
   public function getProjects(): array {
     $projects = $this->monitorDataStore->get(self::PROJECT_NAME);
 
+    //if for any reason no projects saved, return empty array.
     if(!$projects) return [];
 
-    return asort($projects);
+    //sort them by project name
+    asort($projects);
+
+    //all done
+    return $projects;
   }
 
   /**
@@ -155,7 +160,7 @@ class MonitorStorage {
     if(!$environments) return [];
 
     //else return sorted environment list.
-    return usort($environments, function($a, $b) {
+    usort($environments, function($a, $b) {
       return match (true) {
         strtolower($a) == 'live' => -1,
         strtolower($b) == 'live' => 1,
@@ -164,6 +169,9 @@ class MonitorStorage {
         default => 0
       };
     });
+
+    //return em
+    return $environments;
   }
 
   /**
