@@ -50,7 +50,7 @@ class MonitorStorage {
    * @return void
    * @throws \Drupal\Core\TempStore\TempStoreException
    */
-  public function deleteInstanceData(string $project, string $environment) {
+  public function deleteInstanceData(string $project, string $environment): void {
     $this->deleteEnvironment($project, $environment);
     $this->monitorDataStore->delete($project . '_' .$environment);
   }
@@ -134,8 +134,10 @@ class MonitorStorage {
    */
   public function getProjects(): array {
     $projects = $this->monitorDataStore->get(self::PROJECT_NAME);
-    asort($projects);
-    return $projects ?? [];
+
+    if(!$projects) return [];
+
+    return asort($projects);
   }
 
   /**
@@ -149,7 +151,11 @@ class MonitorStorage {
   public function getEnvironments(string $project): array {
     $environments = $this->monitorDataStore->get($project . '_' . self::ENVIRONMENT_NAME);
 
-    usort($environments, function($a, $b) {
+    //if for any reason no environments saved, return empty array.
+    if(!$environments) return [];
+
+    //else return sorted environment list.
+    return usort($environments, function($a, $b) {
       return match (true) {
         strtolower($a) == 'live' => -1,
         strtolower($b) == 'live' => 1,
@@ -158,9 +164,6 @@ class MonitorStorage {
         default => 0
       };
     });
-
-
-    return $environments ?? [];
   }
 
   /**
