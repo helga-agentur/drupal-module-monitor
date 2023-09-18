@@ -9,14 +9,14 @@
 
 <div class="l-monitor">
   <header class="l-monitor__header c-section">
-        <div class="l-monitor__header-content c-section__content u-grid">
-          <div>Projekt</div>
-          <div><a href="{{ monitor.globals.drupal.changelogUrl }}" target="_blank">Drupal {{ monitor.globals.drupal.version }}</a></div>
-          <div><a href="{{ monitor.globals.php.changelogUrl }}" target="_blank">PHP {{ monitor.globals.php.version }}</a></div>
-          <div>Head</div>
-          <div>Commit</div>
-          <div>Node</div>
-        </div>
+    <div class="l-monitor__header-content c-section__content u-grid">
+      <div>Projekt</div>
+      <div><a class="e-link" href="{{ monitor.globals.drupal.changelogUrl }}" target="_blank">Drupal {{ monitor.globals.drupal.version }}</a></div>
+      <div><a class="e-link" href="{{ monitor.globals.php.changelogUrl }}" target="_blank">PHP {{ monitor.globals.php.version }}</a></div>
+      <div>Head</div>
+      <div>Commit</div>
+      <div>Node</div>
+    </div>
   </header>
 
   <main class="l-monitor__list">
@@ -31,55 +31,49 @@
 
       <div class="{{ projectClasses|join(' ')|trim }}">
 
-        {% embed '@monitor/c-collapsible-item.html.twig' with {
-          collapsibleGroupId: 'monitor',
-        } %}
-          {% block collapsibleSummary %}
-            <div class="l-monitor__project-title c-section__content">
-              {% include '@monitor/c-collapsible-trigger.html.twig' with {
-                title: project.identifier,
-              } %}
-            </div>
+        {% if project.environments|length == 1 %}
 
-            {% include '@monitor/c-environment.html.twig' with {
-              identifier:    project.environments.0.identifier,
-              host:          project.environments.0.host,
-              timestamp:     project.environments.0.timestamp,
-              drupalVersion: project.environments.0.drupal.version,
-              drupalRisk:    project.environments.0.drupal.risk,
-              phpVersion:    project.environments.0.php.version,
-              phpRisk:       project.environments.0.php.risk,
-              gitHeadUrl:    project.environments.0.git.headUrl,
-              gitHeadName:   project.environments.0.git.head,
-              gitCommitUrl:  project.environments.0.git.commitUrl,
-              gitCommitHash: project.environments.0.git.commit,
-              gitCommitDate: project.environments.0.git.commitDate,
-              nodeVersion:   project.environments.0.node.version,
+          <div class="l-monitor__project-title c-section__content">
+            {% include '@monitor/c-collapsible-trigger.html.twig' with {
+              title:         project.identifier,
+              isCollapsible: false,
             } %}
-          {% endblock %}
+          </div>
 
-          {% block collapsibleDetail %}
-            {% for environment in project.environments %}
-              {% if loop.index0 > 0 %}
-                {% include '@monitor/c-environment.html.twig' with {
-                  identifier:    environment.identifier,
-                  host:          environment.host,
-                  timestamp:     environment.timestamp,
-                  drupalVersion: environment.drupal.version,
-                  drupalRisk:    environment.drupal.risk,
-                  phpVersion:    environment.php.version,
-                  phpRisk:       environment.php.risk,
-                  gitHeadUrl:    environment.git.headUrl,
-                  gitHeadName:   environment.git.head,
-                  gitCommitUrl:  environment.git.commitUrl,
-                  gitCommitHash: environment.git.commit,
-                  gitCommitDate: environment.git.commitDate,
-                  nodeVersion:   environment.node.version,
+          {% include '@monitor/c-environment.html.twig' with {
+            environment: project.environments.0,
+          } %}
+
+        {% else %}
+
+          {% embed '@monitor/c-collapsible-item.html.twig' with {
+            collapsibleGroupId: 'monitor',
+          } %}
+            {% block collapsibleSummary %}
+              <div class="l-monitor__project-title c-section__content">
+                {% include '@monitor/c-collapsible-trigger.html.twig' with {
+                  title:         project.identifier,
+                  isCollapsible: true,
                 } %}
-              {% endif %}
-            {% endfor %}
-          {% endblock %}
-        {% endembed %}
+              </div>
+
+              {% include '@monitor/c-environment.html.twig' with {
+                environment: project.environments.0,
+              } %}
+            {% endblock %}
+
+            {% block collapsibleDetail %}
+              {% for environment in project.environments %}
+                {% if loop.index0 > 0 %}
+                  {% include '@monitor/c-environment.html.twig' with {
+                    environment: environment,
+                  } %}
+                {% endif %}
+              {% endfor %}
+            {% endblock %}
+          {% endembed %}
+
+        {% endif %}
 
       </div>
 
