@@ -1,17 +1,33 @@
 @use 's-colors';
+@use 't-transition';
 
-.e-link {
+.e-link,
+%e-link {
   text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+  @include t-transition.transition(color);
+
+  span {
+    display: inline-block;
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    text-decoration-thickness: 2px;
+  }
 
   &:link,
   &:visited {
     color: s-colors.$text;
   }
 
-  &:hover,
-  &:focus-visible,
+  &:focus,
   &:active {
-    color: s-colors.$text;
-    text-decoration: none;
+    color: var(--project-color, s-colors.$text);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      color: var(--project-color, s-colors.$text);
+    }
   }
 }

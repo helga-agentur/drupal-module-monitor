@@ -11,13 +11,26 @@
 
 .e-link {
   text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+  transition: color 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+}
+.e-link span {
+  display: inline-block;
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
 }
 .e-link:link, .e-link:visited {
   color: #000000;
 }
-.e-link:hover, .e-link:focus-visible, .e-link:active {
-  color: #000000;
-  text-decoration: none;
+.e-link:focus, .e-link:active {
+  color: var(--project-color, #000000);
+}
+@media (hover: hover) and (pointer: fine) {
+  .e-link:hover {
+    color: var(--project-color, #000000);
+  }
 }
 
 .c-section {
@@ -124,6 +137,9 @@ html {
   font-size: 16px;
 }
 
+.l-monitor {
+  line-height: 2;
+}
 .l-monitor__header {
   position: sticky;
   top: 78px;
