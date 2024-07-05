@@ -22,6 +22,10 @@ html {
     font-weight: s-typography.$font-weight-bold;
     background-color: s-colors.$white;
     box-shadow: 0 4px 8px rgba(s-colors.$black, 0.04);
+
+    div {
+      line-height: 1.3;
+    }
   }
 
   &__project {

@@ -68,4 +68,10 @@
   </div>
 
   <div>{{ environment.node.version }}</div>
+
+  <ul>
+    {% for key, value in environment.npm %}
+      <li><strong>{{ key }}:</strong> {{ value }}</li>
+    {% endfor %}
+  </ul>
 </div>
