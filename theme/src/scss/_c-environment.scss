@@ -2,7 +2,19 @@
   padding-top: 1rem;
   padding-bottom: 1rem;
 
+  p,
   &__paragraph {
     margin: 0;
   }
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    line-height: 1.3;
+  }
 }
+
