@@ -17,6 +17,11 @@
         "node": {
           "version": "18.9.0"
         },
+        "npm": {
+          "major": 7,
+          "minor": 14,
+          "patch": 2
+        },
         "git": {
           "head": "v1.0.2",
           "headUrl": "#",
@@ -46,6 +51,11 @@
         },
         "node": {
           "version": "18.9.0"
+        },
+        "npm": {
+          "major": 5,
+          "minor": 9,
+          "patch": 4
         }
       }
     ]
@@ -74,6 +84,11 @@
         "node": {
           "version": "18.9.0"
         },
+        "npm": {
+          "major": 2,
+          "minor": 5,
+          "patch": 4
+        },
         "timestamp": 1672146587
       },
       {
@@ -97,6 +112,11 @@
         "node": {
           "version": "18.9.0"
         },
+        "npm": {
+          "major": 6,
+          "minor": 12,
+          "patch": 1
+        },
         "timestamp": 1672146587
       },
       {
@@ -119,6 +139,11 @@
         },
         "node": {
           "version": "18.9.0"
+        },
+        "npm": {
+          "major": 3,
+          "minor": 27,
+          "patch": 6
         },
         "timestamp": 1672146587
       }
