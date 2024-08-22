@@ -10,7 +10,11 @@ use Drupal\Core\Form\FormStateInterface;
  */
 class SettingsForm extends ConfigFormBase {
 
+  //config name
   const CONFIG = 'monitor.settings';
+
+  //config fields
+  const CONFIG_DRUPALVERSION = 'drupalVersion';
   const CONFIG_DUMMYDATA = 'useDummyData';
 
   /**
@@ -31,6 +35,13 @@ class SettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $form[self::CONFIG_DRUPALVERSION] = [
+      '#type' => 'number',
+      '#title' => $this->t('Drupal version'),
+      '#description' => 'Current stable major Drupal version',
+      '#default_value' => $this->config('monitor.settings')->get(self::CONFIG_DRUPALVERSION) ?? 11,
+    ];
+
     $form[self::CONFIG_DUMMYDATA] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Use dummy data'),
@@ -51,6 +62,9 @@ class SettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $this->config(self::CONFIG)
+      ->set(self::CONFIG_DRUPALVERSION, $form_state->getValue(self::CONFIG_DRUPALVERSION))
+      ->save();
     $this->config(self::CONFIG)
       ->set(self::CONFIG_DUMMYDATA, $form_state->getValue(self::CONFIG_DUMMYDATA))
       ->save();

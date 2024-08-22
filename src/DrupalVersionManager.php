@@ -2,20 +2,22 @@
 
 namespace Drupal\monitor;
 
+use Drupal\monitor\Form\SettingsForm;
+
 /**
  * Services related to Drupal Versions
  */
 class DrupalVersionManager {
 
-  //TODO the version should be dynamic
-  const DRUPAL_MAJOR_VERSION = '9';
-
   private string $currentVersion;
+
+  private int $currentMajorVersion;
 
   private string $currentSecurityPatch;
 
   public function __construct() {
     try {
+      $this->currentMajorVersion = \Drupal::config(SettingsForm::CONFIG)->get(SettingsForm::CONFIG_DRUPALVERSION);
       $this->currentVersion = $this->fetchCurrentVersion();
       $this->currentSecurityPatch = $this->fetchCurrentSecurityPatch();
     } catch (\Exception $e) {
@@ -30,6 +32,15 @@ class DrupalVersionManager {
    */
   public function getCurrentVersion(): string {
     return $this->currentVersion;
+  }
+
+  /**
+   * Get current major Drupal Version i.e. 10 or 11.
+   *
+   * @return int
+   */
+  private function getCurrentMajorVersion(): int {
+    return $this->currentMajorVersion;
   }
 
   /**
@@ -84,7 +95,7 @@ class DrupalVersionManager {
 
     foreach ($data['packages']['drupal/core'] as $package) {
       $version = $package['version'];
-      if(str_starts_with($version, self::DRUPAL_MAJOR_VERSION) && !str_contains($version, 'rc')) {
+      if(str_starts_with($version, $this->getCurrentMajorVersion()) && !str_contains($version, 'rc')) {
         return $version;
       }
     }
