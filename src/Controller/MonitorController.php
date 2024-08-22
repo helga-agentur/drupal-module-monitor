@@ -63,8 +63,9 @@ class MonitorController extends ControllerBase {
     //compare global versions to environment versions
     //by basically just looping the projects
     array_walk($projects, function(&$project) use ($globals) {
-      //then their environments
-      array_walk($project['environments'], function(&$environment) use ($globals) {
+      //then their environments, remove empty ones.
+      $environments = array_filter($project['environments']);
+      array_walk($environments, function(&$environment) use ($globals) {
         //and compare
         $environment['php']['risk'] = $this->phpVersionManager->calculateRisk($environment['php']['version']);
         $environment['drupal']['risk'] = $this->drupalVersionManager->calculateRisk($environment['drupal']['version']);
