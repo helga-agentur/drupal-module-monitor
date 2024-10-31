@@ -2,7 +2,7 @@ name: monitor
 type: module
 description: Collects data from our projects
 package: Joinbox
-core_version_requirement: ^8 || ^9 || ^10
+core_version_requirement: ^8 || ^9 || ^10 || ^11
 dependencies:
   - drupal:rest
   - drupal:basic_auth
