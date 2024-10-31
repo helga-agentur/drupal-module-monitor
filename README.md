@@ -1,7 +1,7 @@
 # Monitor
-The Joinbox Monitoring tool consists of the following two parts.
-- [Monitor](https://github.com/joinbox/d9-module-monitor)
-- [Instance](https://github.com/joinbox/d9-module-monitor-instance)
+The Helga monitor tooling consists of the following two parts.
+- [Monitor](https://github.com/helga-agentur/drupal-module-monitor)
+- [Instance](https://github.com/helga-agentur/drupal-module-monitor-instance)
 
 ## Settings
 There are several settings you can change.
