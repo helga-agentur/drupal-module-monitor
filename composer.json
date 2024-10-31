@@ -1,5 +1,5 @@
 {
-    "name": "helga/monitor",
+    "name": "helga-agentur/monitor",
     "description": "The monitor collects data from all instances sending data.",
     "type": "drupal-module",
     "license": "GPL-2.0-or-later",
