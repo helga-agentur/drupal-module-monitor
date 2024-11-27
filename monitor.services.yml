@@ -1,7 +1,15 @@
 services:
   monitor.storage:
     class: Drupal\monitor\MonitorStorage
-    arguments: [ '@tempstore.shared']
+    arguments: ['@tempstore.shared']
+
+  monitor.log_manager:
+    class: Drupal\monitor\LogManager
+    arguments: ['@monitor.api_consumer']
+
+  monitor.api_consumer:
+    class: Drupal\monitor\ApiConsumer
+    arguments: ['@http_client']
 
   monitor.drupal.version.manager:
     class: Drupal\monitor\DrupalVersionManager
