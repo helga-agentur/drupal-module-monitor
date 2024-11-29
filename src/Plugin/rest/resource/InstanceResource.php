@@ -98,11 +98,4 @@ class InstanceResource extends ResourceBase implements DependentPluginInterface 
   public function calculateDependencies() {
     // TODO: Implement calculateDependencies() method.
   }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function permissions() {
-    return [];
-  }
 }
