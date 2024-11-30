@@ -2,12 +2,14 @@
 
 namespace Drupal\monitor;
 
+use GuzzleHttp\Client;
+
 class LogManager {
 
-  private ApiConsumer $apiConsumer;
-
-  public function __construct(ApiConsumer $apiConsumer) {
-    $this->apiConsumer = $apiConsumer;
+  public function __construct(
+    private readonly Client $httpClient,
+    private readonly ApiConsumerInterface $apiConsumer
+  ) {
   }
 
   /**
@@ -29,15 +31,28 @@ class LogManager {
    *
    * Sends an alert via email.
    */
-  public function alertByMail(array $logData): void {}
+  private function alertByMail(array $logData): void {}
 
   /**
    * Sends the log to an external SaaS (Coralogix).
    *
    * @param array $logData
    */
-  public function sendLogToSaas(array $logData): void {
-    $this->apiConsumer->sendLog($logData);
+  private function sendLogToSaas(array $logData): void {
+    $transformedLogData = $this->apiConsumer->transformLogData($logData);
+
+    try {
+      $response = $this->httpClient->post(
+        $this->apiConsumer->getApiUrl(),
+        $this->apiConsumer->getRequestOptions($transformedLogData),
+      );
+
+      if ($response->getStatusCode() !== 200) {
+        \Drupal::logger('monitor')->error('Failed to send log: {message}', ['message' => $response->getBody()->getContents()]);
+      }
+    } catch (\Exception $e) {
+      \Drupal::logger('monitor')->error('Error sending log: {message}', ['message' => $e->getMessage()]);
+    }
   }
 
   /**

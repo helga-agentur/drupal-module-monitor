@@ -5,11 +5,10 @@ services:
 
   monitor.log_manager:
     class: Drupal\monitor\LogManager
-    arguments: ['@monitor.api_consumer']
+    arguments: ['@http_client', '@monitor.coralogix_api_consumer']
 
-  monitor.api_consumer:
-    class: Drupal\monitor\ApiConsumer
-    arguments: ['@http_client']
+  monitor.coralogix_api_consumer:
+    class: Drupal\monitor\CoralogixApiConsumer
 
   monitor.drupal.version.manager:
     class: Drupal\monitor\DrupalVersionManager

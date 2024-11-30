@@ -5,10 +5,8 @@ namespace Drupal\monitor\Plugin\rest\resource;
 use Drupal\Component\Plugin\DependentPluginInterface;
 use Drupal\monitor\LogManager;
 use Drupal\rest\ModifiedResourceResponse;
-use Drupal\rest\Plugin\ResourceBase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**
  * Represents LogResource records as resources.
@@ -22,10 +20,7 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  * )
  *
  */
-class LogResource extends ResourceBase implements DependentPluginInterface {
-
-  const _IDENTIFIER = 'project';
-  const _ENVIRONMENT = 'environment';
+class LogResource extends MonitorResource implements DependentPluginInterface {
 
   public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, LogManager $logManager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
@@ -64,19 +59,5 @@ class LogResource extends ResourceBase implements DependentPluginInterface {
     $this->logManager->processLog($data);
 
     return new ModifiedResourceResponse($data, 201);
-  }
-
-  /**
-   * Validates the data before processing
-   *
-   * @param $data
-   * @return void
-   */
-  private function validate($data): void {
-    if(!key_exists(self::_IDENTIFIER, $data) || !key_exists(self::_ENVIRONMENT, $data)) throw new UnprocessableEntityHttpException('Provide at least a project and its environment.');
-  }
-
-  public function calculateDependencies() {
-    // TODO: Implement calculateDependencies() method.
   }
 }

@@ -2,13 +2,11 @@
 
 namespace Drupal\monitor\Plugin\rest\resource;
 
-use Drupal\Component\Plugin\DependentPluginInterface;
 use Drupal\monitor\MonitorStorage;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 
 /**
  * Represents InstanceResource records as resources.
@@ -22,10 +20,7 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  * )
  *
  */
-class InstanceResource extends ResourceBase implements DependentPluginInterface {
-
-  const _IDENTIFIER = 'project';
-  const _ENVIRONMENT = 'environment';
+class InstanceResource extends MonitorResource {
   protected MonitorStorage $monitorStorage;
 
   /**
@@ -75,16 +70,6 @@ class InstanceResource extends ResourceBase implements DependentPluginInterface 
   }
 
   /**
-   * Validates the data before processing
-   *
-   * @param $data
-   * @return void
-   */
-  private function validate($data): void {
-    if(!key_exists(self::_IDENTIFIER, $data) || !key_exists(self::_ENVIRONMENT, $data)) throw new UnprocessableEntityHttpException('Provide at least a project and its environment.');
-  }
-
-  /**
    * Update the storage
    *
    * @param $data
@@ -93,9 +78,5 @@ class InstanceResource extends ResourceBase implements DependentPluginInterface 
    */
   private function update($data): void {
     $this->monitorStorage->setInstanceData($data[self::_IDENTIFIER], $data[self::_ENVIRONMENT], $data['data']);
-  }
-
-  public function calculateDependencies() {
-    // TODO: Implement calculateDependencies() method.
   }
 }
