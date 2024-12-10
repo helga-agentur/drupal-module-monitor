@@ -1,0 +1,15 @@
+langcode: de
+status: true
+dependencies:
+  config:
+    - rest.resource.monitor_instances
+    - rest.resource.monitor_logs
+  module:
+    - rest
+id: monitor
+label: Monitor
+weight: -6
+is_admin: null
+permissions:
+  - 'restful post monitor_instances'
+  - 'restful post monitor_logs'

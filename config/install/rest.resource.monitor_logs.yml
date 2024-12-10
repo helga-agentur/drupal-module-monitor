@@ -5,8 +5,8 @@ dependencies:
     - basic_auth
     - monitor
     - serialization
-id: monitor_instances
-plugin_id: monitor_instances
+id: monitor_logs
+plugin_id: monitor_logs
 granularity: resource
 configuration:
   methods:
