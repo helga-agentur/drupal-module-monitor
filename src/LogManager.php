@@ -65,6 +65,12 @@ class LogManager {
    * @return bool - Returns true if the log should be sent, false otherwise.
    */
   private function filter(array $logData): bool {
-    return true;
+    if (
+      strtolower($logData['environment']) !== 'local'
+    ) {
+      return true;
+    }
+
+    return false;
   }
 }
