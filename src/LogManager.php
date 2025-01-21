@@ -2,6 +2,7 @@
 
 namespace Drupal\monitor;
 
+use Drupal\monitor\Plugin\rest\resource\MonitorResource;
 use GuzzleHttp\Client;
 
 class LogManager {
@@ -56,7 +57,6 @@ class LogManager {
   }
 
   /**
-   * @TODO - Implement filtering logic for logs later.
    *
    * Filters logs to determine if they should be sent.
    *
@@ -66,11 +66,15 @@ class LogManager {
    */
   private function filter(array $logData): bool {
     if (
-      strtolower($logData['environment']) !== 'local'
+      strtolower($logData['severity']) === 'error'
+      && in_array(
+        strtolower($logData[MonitorResource::ENVIRONMENT]),
+        MonitorResource::ALLOWED_ENVIRONMENTS
+      )
     ) {
-      return true;
+      return TRUE;
     }
 
-    return false;
+    return FALSE;
   }
 }

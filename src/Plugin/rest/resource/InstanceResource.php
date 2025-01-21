@@ -61,12 +61,33 @@ class InstanceResource extends MonitorResource {
    * @return ModifiedResourceResponse
    * @throws \Drupal\Core\TempStore\TempStoreException
    */
-  public function post($data): ModifiedResourceResponse {
+  public function post(?array $data): ModifiedResourceResponse {
+    if (!$data) {
+      throw new UnprocessableEntityHttpException('No data provided');
+    }
+
     $this->validate($data);
-    $this->update($data);
+
+    if ($this->filter($data)) {
+      $this->update($data);
+    }
 
     // Return the newly created record in the response body.
     return new ModifiedResourceResponse($data, 201);
+  }
+
+  /**
+   * Filters the data to determine if it should be processed.
+   *
+   * @param array $data
+   *
+   * @return bool
+   */
+  private function filter(array $data): bool {
+    return in_array(
+      strtolower($data[static::ENVIRONMENT]),
+      static::ALLOWED_ENVIRONMENTS
+    );
   }
 
   /**
@@ -76,7 +97,7 @@ class InstanceResource extends MonitorResource {
    * @return void
    * @throws \Drupal\Core\TempStore\TempStoreException
    */
-  private function update($data): void {
-    $this->monitorStorage->setInstanceData($data[self::_IDENTIFIER], $data[self::_ENVIRONMENT], $data['data']);
+  private function update(array $data): void {
+    $this->monitorStorage->setInstanceData($data[self::IDENTIFIER], $data[self::ENVIRONMENT], $data['data']);
   }
 }
