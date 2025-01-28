@@ -2,7 +2,6 @@
 
 namespace Drupal\monitor\Plugin\rest\resource;
 
-use Drupal\Component\Plugin\DependentPluginInterface;
 use Drupal\monitor\LogManager;
 use Drupal\rest\ModifiedResourceResponse;
 use Psr\Log\LoggerInterface;
@@ -20,7 +19,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  *
  */
-class LogResource extends MonitorResource implements DependentPluginInterface {
+class LogResource extends MonitorResource {
+
+  private LogManager $logManager;
 
   public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, LogManager $logManager) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
@@ -50,7 +51,6 @@ class LogResource extends MonitorResource implements DependentPluginInterface {
    *
    * @param $data
    * @return ModifiedResourceResponse
-   * @throws \Drupal\Core\TempStore\TempStoreException
    */
   public function post($data): ModifiedResourceResponse {
     $this->validate($data);

@@ -26,7 +26,6 @@ class MonitorResource extends ResourceBase implements DependentPluginInterface {
    * @param $plugin_definition
    * @param array $serializer_formats
    * @param LoggerInterface $logger
-   * @param MonitorStorage $monitorStorage
    */
   public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
@@ -37,7 +36,7 @@ class MonitorResource extends ResourceBase implements DependentPluginInterface {
    * @param array $configuration
    * @param $plugin_id
    * @param $plugin_definition
-   * @return InstanceResource|ResourceBase|static
+   * @return MonitorResource|ResourceBase|static
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
@@ -61,5 +60,8 @@ class MonitorResource extends ResourceBase implements DependentPluginInterface {
     }
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function calculateDependencies() {}
 }
