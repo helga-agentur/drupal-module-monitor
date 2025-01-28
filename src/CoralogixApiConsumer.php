@@ -19,6 +19,12 @@ class CoralogixApiConsumer implements ApiConsumerInterface {
   private string $apiKey;
 
   /**
+   * The API URL of the Coralogix.
+   * @var string
+   */
+  private string $apiUrl;
+
+  /**
    * Constructs a CoralogixApiConsumer object.
    */
   public function __construct() {
