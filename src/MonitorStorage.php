@@ -4,6 +4,7 @@ namespace Drupal\monitor;
 
 use Drupal\Core\TempStore\SharedTempStore;
 use Drupal\Core\TempStore\SharedTempStoreFactory;
+use Drupal\Core\TempStore\TempStoreException;
 
 /**
  * Class MonitorStorage.
@@ -32,7 +33,7 @@ class MonitorStorage {
    * @param string $environment
    * @param array $data
    * @return void
-   * @throws \Drupal\Core\TempStore\TempStoreException
+   * @throws TempStoreException
    */
   public function setInstanceData(string $project, string $environment, array $data): void {
     $this->addProject($project);
@@ -48,7 +49,7 @@ class MonitorStorage {
    * @param string $project
    * @param string $environment
    * @return void
-   * @throws \Drupal\Core\TempStore\TempStoreException
+   * @throws TempStoreException
    */
   public function deleteInstanceData(string $project, string $environment): void {
     $this->deleteEnvironment($project, $environment);
@@ -71,7 +72,7 @@ class MonitorStorage {
    *
    * @param string $project
    * @return void
-   * @throws \Drupal\Core\TempStore\TempStoreException
+   * @throws TempStoreException
    */
   private function addProject(string $project): void {
     $projects = $this->getProjects();
@@ -84,7 +85,7 @@ class MonitorStorage {
    *
    * @param string $project
    * @return void
-   * @throws \Drupal\Core\TempStore\TempStoreException
+   * @throws TempStoreException
    */
   public function deleteProject(string $project): void {
     foreach ($this->getEnvironments($project) as $environment) {
@@ -103,7 +104,7 @@ class MonitorStorage {
    * @param string $project
    * @param string $environment
    * @return void
-   * @throws \Drupal\Core\TempStore\TempStoreException
+   * @throws TempStoreException
    */
   private function addEnvironment(string $project, string $environment): void {
     $environments = $this->getEnvironments($project);
@@ -117,7 +118,7 @@ class MonitorStorage {
    * @param string $project
    * @param string $environment
    * @return void
-   * @throws \Drupal\Core\TempStore\TempStoreException
+   * @throws TempStoreException
    */
   private function deleteEnvironment(string $project, string $environment): void {
     $environments = $this->getEnvironments($project);
