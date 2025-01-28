@@ -14,8 +14,9 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  */
 class MonitorResource extends ResourceBase implements DependentPluginInterface {
 
-  const _IDENTIFIER = 'project';
-  const _ENVIRONMENT = 'environment';
+  const IDENTIFIER = 'project';
+  const ENVIRONMENT = 'environment';
+  const ALLOWED_ENVIRONMENTS = ['stage', 'integration', 'live'];
 
   protected MonitorStorage $monitorStorage;
 
@@ -55,7 +56,9 @@ class MonitorResource extends ResourceBase implements DependentPluginInterface {
    * @return void
    */
   protected function validate($data): void {
-    if(!key_exists(self::_IDENTIFIER, $data) || !key_exists(self::_ENVIRONMENT, $data)) throw new UnprocessableEntityHttpException('Provide at least a project and its environment.');
+    if (!isset($data[self::IDENTIFIER], $data[self::ENVIRONMENT])) {
+      throw new UnprocessableEntityHttpException('Provide at least a project and its environment.');
+    }
   }
 
   public function calculateDependencies() {}
