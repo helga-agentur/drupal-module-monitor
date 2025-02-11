@@ -66,7 +66,7 @@ class LogManager {
    */
   private function filter(array $logData): bool {
     if (
-      strtolower($logData['severity']) === 'error'
+      strtolower($logData['level']) === 'error'
       && in_array(
         strtolower($logData[MonitorResource::ENVIRONMENT]),
         MonitorResource::ALLOWED_ENVIRONMENTS
