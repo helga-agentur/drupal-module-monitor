@@ -65,9 +65,7 @@ class LogManager {
    * @return bool - Returns true if the log should be sent, false otherwise.
    */
   private function filter(array $logData): bool {
-    if (
-      strtolower($logData['level']) === 'error'
-      && in_array(
+    if (in_array(
         strtolower($logData[MonitorResource::ENVIRONMENT]),
         MonitorResource::ALLOWED_ENVIRONMENTS
       )
