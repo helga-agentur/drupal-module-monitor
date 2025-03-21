@@ -2,7 +2,12 @@
 
 namespace Drupal\monitor\Plugin\rest\resource;
 
+use Drupal\Core\Queue\QueueFactory;
+use Drupal\Core\Queue\QueueInterface;
+use Drupal\Core\TempStore\TempStoreException;
+use Drupal\monitor\LogManager;
 use Drupal\monitor\MonitorStorage;
+use Drupal\monitor\SendToMonitorFlag;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Psr\Log\LoggerInterface;
@@ -23,6 +28,9 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
  */
 class InstanceResource extends MonitorResource {
   protected MonitorStorage $monitorStorage;
+  protected LogManager $logManager;
+  protected QueueInterface $queue;
+
 
   /**
    * @param array $configuration
@@ -31,10 +39,13 @@ class InstanceResource extends MonitorResource {
    * @param array $serializer_formats
    * @param LoggerInterface $logger
    * @param MonitorStorage $monitorStorage
+   * @param LogManager $logManager
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, MonitorStorage $monitorStorage) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, MonitorStorage $monitorStorage, LogManager $logManager, QueueFactory $queue) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
     $this->monitorStorage = $monitorStorage;
+    $this->logManager = $logManager;
+    $this->queue = $queue->get('monitor_queueworker', True);
   }
 
   /**
@@ -46,30 +57,32 @@ class InstanceResource extends MonitorResource {
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('rest'),
-      $container->get('monitor.storage'),
+        $configuration,
+        $plugin_id,
+        $plugin_definition,
+        $container->getParameter('serializer.formats'),
+        $container->get('logger.factory')->get('rest'),
+        $container->get('monitor.storage'),
+        $container->get('monitor.log_manager'),
+        $container->get('queue')
     );
   }
 
   /**
    * post request
    *
-   * @param $data
+   * @param array|null $data
    * @return ModifiedResourceResponse
-   * @throws \Drupal\Core\TempStore\TempStoreException
+   * @throws TempStoreException
    */
   public function post(?array $data): ModifiedResourceResponse {
     if (!$data) {
       throw new UnprocessableEntityHttpException('No data provided');
     }
 
-    $this->validate($data);
+    $this->checkForProjectAndEnvironment($data);
 
-    if ($this->filter($data)) {
+    if ($this->logManager->dataFromAllowedEnvironment($data)) {
       $this->update($data);
     }
 
@@ -78,27 +91,16 @@ class InstanceResource extends MonitorResource {
   }
 
   /**
-   * Filters the data to determine if it should be processed.
-   *
-   * @param array $data
-   *
-   * @return bool
-   */
-  private function filter(array $data): bool {
-    return in_array(
-      strtolower($data[static::ENVIRONMENT]),
-      static::ALLOWED_ENVIRONMENTS
-    );
-  }
-
-  /**
    * Update the storage
    *
-   * @param $data
+   * @param array $data
    * @return void
-   * @throws \Drupal\Core\TempStore\TempStoreException
+   * @throws TempStoreException
    */
   private function update(array $data): void {
-    $this->monitorStorage->setInstanceData($data[self::IDENTIFIER], $data[self::ENVIRONMENT], $data['data']);
+    if(!$this->queue->createItem($data)) {
+      \Drupal::logger('monitor')->error('Could not add item to queue. {itemData}', ['itemData' => json_encode($data), SendToMonitorFlag::SEND_TO_MONITOR_KEY->value => false]);
+
+    }
   }
 }

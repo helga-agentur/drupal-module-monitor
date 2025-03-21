@@ -31,9 +31,9 @@ class MonitorController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('monitor.storage'),
-      $container->get('monitor.drupal.version.manager'),
-      $container->get('monitor.php.version.manager'),
+        $container->get('monitor.storage'),
+        $container->get('monitor.drupal.version.manager'),
+        $container->get('monitor.php.version.manager'),
     );
   }
 
@@ -52,12 +52,12 @@ class MonitorController extends ControllerBase {
     };
 
     $globals['drupal'] = [
-      'version' => $this->drupalVersionManager->getCurrentVersion(),
-      'changelogUrl' => $this->drupalVersionManager->getCurrentReleaseNotes(),
+        'version' => $this->drupalVersionManager->getCurrentVersion(),
+        'changelogUrl' => $this->drupalVersionManager->getCurrentReleaseNotes(),
     ];
     $globals['php'] = [
-      'version' => $this->phpVersionManager->getCurrentVersion(),
-      'changelogUrl' => $this->phpVersionManager->getCurrentReleaseNotes()
+        'version' => $this->phpVersionManager->getCurrentVersion(),
+        'changelogUrl' => $this->phpVersionManager->getCurrentReleaseNotes()
     ];
 
     //compare global versions to environment versions
@@ -74,12 +74,12 @@ class MonitorController extends ControllerBase {
 
     //TODO add proper cache tags
     return [
-      '#theme' => 'monitor',
-      'projects' => $projects,
-      'globals' => $globals,
-      '#cache' => [
-        'max-age' => 0
-      ],
+        '#theme' => 'monitor',
+        'projects' => $projects,
+        'globals' => $globals,
+        '#cache' => [
+            'max-age' => 0
+        ],
     ];
   }
 

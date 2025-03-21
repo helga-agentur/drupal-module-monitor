@@ -3,6 +3,8 @@
 namespace Drupal\monitor\Plugin\rest\resource;
 
 use Drupal\Component\Plugin\DependentPluginInterface;
+use Drupal\Core\Queue\QueueFactory;
+use Drupal\Core\Queue\QueueInterface;
 use Drupal\monitor\MonitorStorage;
 use Drupal\rest\Plugin\ResourceBase;
 use Psr\Log\LoggerInterface;
@@ -40,11 +42,12 @@ class MonitorResource extends ResourceBase implements DependentPluginInterface {
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('rest'),
+        $configuration,
+        $plugin_id,
+        $plugin_definition,
+        $container->getParameter('serializer.formats'),
+        $container->get('logger.factory')->get('rest'),
+        $container->get('queue')
     );
   }
 
@@ -54,7 +57,7 @@ class MonitorResource extends ResourceBase implements DependentPluginInterface {
    * @param $data
    * @return void
    */
-  protected function validate($data): void {
+  protected function checkForProjectAndEnvironment($data): void {
     if (!isset($data[self::IDENTIFIER], $data[self::ENVIRONMENT])) {
       throw new UnprocessableEntityHttpException('Provide at least a project and its environment.');
     }

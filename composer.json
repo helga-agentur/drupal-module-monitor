@@ -10,5 +10,7 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {}
+    "require": {
+        "helga-agentur/monitor-instance": "^2.0.2"
+    }
 }

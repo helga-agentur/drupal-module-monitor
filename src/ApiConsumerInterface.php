@@ -29,7 +29,7 @@ interface ApiConsumerInterface {
    *   headers, authentication, timeouts, or any other configuration
    *   necessary for making HTTP requests.
    */
-   function getRequestOptions(array $transformedLogData): array;
+  function getRequestOptions(array $transformedLogData): array;
 
   /**
    * Transforms log data into the format required by the API.

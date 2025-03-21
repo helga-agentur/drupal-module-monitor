@@ -37,12 +37,12 @@ class LogResource extends MonitorResource {
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition): LogResource {
     return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->getParameter('serializer.formats'),
-      $container->get('logger.factory')->get('rest'),
-      $container->get('monitor.log_manager'),
+        $configuration,
+        $plugin_id,
+        $plugin_definition,
+        $container->getParameter('serializer.formats'),
+        $container->get('logger.factory')->get('rest'),
+        $container->get('monitor.log_manager'),
     );
   }
 
@@ -53,7 +53,7 @@ class LogResource extends MonitorResource {
    * @return ModifiedResourceResponse
    */
   public function post($data): ModifiedResourceResponse {
-    $this->validate($data);
+    $this->checkForProjectAndEnvironment($data);
 
     // Process and filter log through LogManager
     $this->logManager->processLog($data);
