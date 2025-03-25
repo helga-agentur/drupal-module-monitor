@@ -63,11 +63,11 @@ class CoralogixApiConsumer implements ApiConsumerInterface {
    */
   public function getRequestOptions(array $transformedLogData): array {
     return [
-      'headers' => [
-        'Content-Type' => 'application/json',
-        'Authorization' => 'Bearer ' . $this->apiKey,
-      ],
-      'body' => json_encode($transformedLogData),
+        'headers' => [
+            'Content-Type' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->apiKey,
+        ],
+        'body' => json_encode($transformedLogData),
     ];
   }
 
@@ -84,12 +84,12 @@ class CoralogixApiConsumer implements ApiConsumerInterface {
     $level = $this->transformLoggingSeverityLevel($logData['data']['level']);
 
     return [
-      'applicationName' => $logData['project'] ?? 'UnknownProject',
-      'subsystemName' => $logData['environment'] ?? 'UnknownEnvironment',
-      'timestamp' => $logData['data']['timestamp'] ?? time(),
-      'severity' => $level,
-      'category' => $logData['data']['channel'] ?? null,
-      'text' => $logData['data']['message'] ?? 'No message provided',
+        'applicationName' => $logData['project'] ?? 'UnknownProject',
+        'subsystemName' => $logData['environment'] ?? 'UnknownEnvironment',
+        'timestamp' => $logData['data']['timestamp'] ?? time(),
+        'severity' => $level,
+        'category' => $logData['data']['channel'] ?? null,
+        'text' => $logData['data']['message'] ?? 'No message provided',
     ];
   }
 
@@ -104,14 +104,14 @@ class CoralogixApiConsumer implements ApiConsumerInterface {
    */
   private function transformLoggingSeverityLevel(int $drupalLogLevel): int {
     $mapping = [
-      RfcLogLevel::DEBUG => 1,   // Debug
-      RfcLogLevel::INFO => 3,    // Info
-      RfcLogLevel::NOTICE => 3,  // Info (nearest match)
-      RfcLogLevel::WARNING => 4, // Warn
-      RfcLogLevel::ERROR => 5,   // Error
-      RfcLogLevel::CRITICAL => 6,// Critical
-      RfcLogLevel::ALERT => 6,   // Critical (nearest match)
-      RfcLogLevel::EMERGENCY => 6  // Critical (nearest match)
+        RfcLogLevel::DEBUG => 1,   // Debug
+        RfcLogLevel::INFO => 3,    // Info
+        RfcLogLevel::NOTICE => 3,  // Info (nearest match)
+        RfcLogLevel::WARNING => 4, // Warn
+        RfcLogLevel::ERROR => 5,   // Error
+        RfcLogLevel::CRITICAL => 6,// Critical
+        RfcLogLevel::ALERT => 6,   // Critical (nearest match)
+        RfcLogLevel::EMERGENCY => 6  // Critical (nearest match)
     ];
 
     return $mapping[$drupalLogLevel] ?? 3; // Default to Info if undefined
