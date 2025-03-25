@@ -1,9 +1,24 @@
 <?php
 
+use Drupal\monitor\Form\SettingsForm;
+
 function monitor_theme() {
   return [
     'monitor' => [
       'render element' => 'monitor'
     ],
   ];
+}
+
+function monitor_install() {
+  // if we install, there is no current drupal major version
+  // so the first time you'll watch your dashboard you'll get an error...
+  if (!\Drupal::config(SettingsForm::CONFIG)->get(SettingsForm::CONFIG_DRUPALVERSION)) {
+    // we set the currently installed major version as default
+    $currentMajorVersion = explode('.', \Drupal::VERSION)[0];
+    \Drupal::logger('monitor')->notice('Please add the default Drupal Major Version in the Monitor Settings Form. It\'s now set to ' . $currentMajorVersion);
+    \Drupal::configFactory()->getEditable(SettingsForm::CONFIG)
+           ->set(SettingsForm::CONFIG_DRUPALVERSION, $currentMajorVersion)
+           ->save();
+  }
 }
