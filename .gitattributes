@@ -1,0 +1,7 @@
+/.gitattributes          export-ignore
+/.gitignore              export-ignore
+/theme/src               export-ignore
+/theme/node_modules      export-ignore
+/theme/package.json      export-ignore
+/theme/package-lock.json export-ignore
+/composer.lock           export-ignore
