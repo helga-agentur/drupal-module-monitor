@@ -83,7 +83,7 @@ class InstanceResource extends MonitorResource {
     $this->checkForProjectAndEnvironment($data);
 
     if ($this->logManager->dataFromAllowedEnvironment($data)) {
-      $this->update($data);
+      $this->sendToQueue($data);
     }
 
     // Return the newly created record in the response body.
@@ -97,7 +97,7 @@ class InstanceResource extends MonitorResource {
    * @return void
    * @throws TempStoreException
    */
-  private function update(array $data): void {
+  private function sendToQueue(array $data): void {
     if(!$this->queue->createItem($data)) {
       \Drupal::logger('monitor')->error('Could not add item to queue. {itemData}', ['itemData' => json_encode($data), SendToMonitorFlag::SEND_TO_MONITOR_KEY->value => false]);
 
