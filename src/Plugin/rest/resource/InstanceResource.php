@@ -45,7 +45,7 @@ class InstanceResource extends MonitorResource {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
     $this->monitorStorage = $monitorStorage;
     $this->logManager = $logManager;
-    $this->queue = $queue->get('monitor_queueworker', True);
+    $this->queue = $queue->get('monitor_queueworker', true);
   }
 
   /**
