@@ -11,6 +11,6 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "helga-agentur/monitor-instance": "^3.0.0-rc.1"
+        "helga-agentur/monitor-instance": "^3.0.0"
     }
 }
