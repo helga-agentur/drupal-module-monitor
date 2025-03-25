@@ -11,6 +11,6 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "helga-agentur/monitor-instance": "^2.0.2"
+        "helga-agentur/monitor-instance": "dev-main"
     }
 }
