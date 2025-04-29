@@ -40,7 +40,7 @@ class MonitorStorage {
     $this->addEnvironment($project, $environment);
     //add environment to $data
     $data['identifier'] = $environment;
-    $this->monitorDataStore->set($project . '_' . $environment, $data);
+    $this->monitorDataStore->setWithExpire($project . '_' . $environment, $data, -1);
   }
 
   /**
@@ -77,7 +77,7 @@ class MonitorStorage {
   private function addProject(string $project): void {
     $projects = $this->getProjects();
     $projects[] = $project;
-    $this->monitorDataStore->set(self::PROJECT_NAME, array_unique($projects));
+    $this->monitorDataStore->setWithExpire(self::PROJECT_NAME, array_unique($projects), -1);
   }
 
   /**
@@ -95,7 +95,7 @@ class MonitorStorage {
     if (($key = array_search($project, $projects)) !== false) {
       unset($projects[$key]);
     }
-    $this->monitorDataStore->set(self::PROJECT_NAME, array_unique($projects));
+    $this->monitorDataStore->setWithExpire(self::PROJECT_NAME, array_unique($projects), -1);
   }
 
   /**
@@ -109,7 +109,7 @@ class MonitorStorage {
   private function addEnvironment(string $project, string $environment): void {
     $environments = $this->getEnvironments($project);
     $environments[] = $environment;
-    $this->monitorDataStore->set($project . '_' . self::ENVIRONMENT_NAME, array_unique($environments));
+    $this->monitorDataStore->setWithExpire($project . '_' . self::ENVIRONMENT_NAME, array_unique($environments), -1);
   }
 
   /**
@@ -125,7 +125,7 @@ class MonitorStorage {
     if (($key = array_search($environment, $environments)) !== false) {
       unset($environments[$key]);
     }
-    $this->monitorDataStore->set($project . '_' . self::ENVIRONMENT_NAME, array_unique($environments));
+    $this->monitorDataStore->setWithExpire($project . '_' . self::ENVIRONMENT_NAME, array_unique($environments), -1);
   }
 
   /**
