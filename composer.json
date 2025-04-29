@@ -11,6 +11,14 @@
     ],
     "minimum-stability": "stable",
     "require": {
-        "helga-agentur/monitor-instance": "^3.0.0"
+        "helga-agentur/monitor-instance": "^3.0.0",
+        "cweagans/composer-patches": "^1.7"
+    },
+    "extra": {
+        "patches": {
+            "drupal/core": {
+                "allow expiration on shared tempstore setter - 2928639": "https://www.drupal.org/files/issues/2021-07-27/2928639-26.patch"
+            }
+        }
     }
 }
