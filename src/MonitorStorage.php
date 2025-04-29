@@ -77,7 +77,7 @@ class MonitorStorage {
   private function addProject(string $project): void {
     $projects = $this->getProjects();
     $projects[] = $project;
-    $this->monitorDataStore->setWithExpire(self::PROJECT_NAME, array_unique($projects));
+    $this->monitorDataStore->setWithExpire(self::PROJECT_NAME, array_unique($projects), -1);
   }
 
   /**
