@@ -40,7 +40,7 @@ class MonitorStorage {
     $this->addEnvironment($project, $environment);
     //add environment to $data
     $data['identifier'] = $environment;
-    $this->monitorDataStore->set($project . '_' . $environment, $data, -1);
+    $this->monitorDataStore->set($project . '_' . $environment, $data);
   }
 
   /**
@@ -77,7 +77,7 @@ class MonitorStorage {
   private function addProject(string $project): void {
     $projects = $this->getProjects();
     $projects[] = $project;
-    $this->monitorDataStore->setWithExpire(self::PROJECT_NAME, array_unique($projects), -1);
+    $this->monitorDataStore->set(self::PROJECT_NAME, array_unique($projects), -1);
   }
 
   /**
