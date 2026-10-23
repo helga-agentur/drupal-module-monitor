@@ -13,13 +13,21 @@ class DrupalVersionManager {
 
   private int $currentMajorVersion;
 
-  private string $currentSecurityPatch;
+  /**
+   * Months before the end of life, in which a release cycle is marked as risky.
+   */
+  const EOL_WARNING_PERIOD = '+6 months';
+
+  /**
+   * End of life dates keyed by release cycle (e.g. "11.4" or "7").
+   */
+  private array $endOfLifeDates = [];
 
   public function __construct() {
     try {
       $this->currentMajorVersion = \Drupal::config(SettingsForm::CONFIG)->get(SettingsForm::CONFIG_DRUPALVERSION);
       $this->currentVersion = $this->fetchCurrentVersion();
-      $this->currentSecurityPatch = $this->fetchCurrentSecurityPatch();
+      $this->endOfLifeDates = $this->fetchEndOfLifeDates();
     } catch (\Exception $e) {
       \Drupal::logger('monitor')->error($e->getMessage());
     }
@@ -44,17 +52,6 @@ class DrupalVersionManager {
   }
 
   /**
-   * Get the latest security patch
-   *
-   * @todo actually get the current security patch - we still need to discuss how this should be done
-   *
-   * @return string
-   */
-  private function fetchCurrentSecurityPatch(): string {
-    return $this->currentVersion;
-  }
-
-  /**
    * Get release notes of current version
    *
    * @return string
@@ -64,19 +61,36 @@ class DrupalVersionManager {
   }
 
   /**
-   * Calculates the risk of your version by comparing it to the current version
-   * Also security patches are considered being necessary.
+   * Calculates the risk of your version by the end of life of its release cycle.
    *
    * @param $version
    * @return string
-   * - 'high' if security patch available
-   * - 'low' if version is outdated, but patches not necessary
-   * - 'no' if no risk at all
+   * - 'high' if the release cycle doesn't get security updates anymore
+   * - 'low' if the release cycle reaches its end of life within the warning period
+   * - 'no' if the release cycle is supported beyond the warning period
+   * - '' if the release cycle is unknown (e.g. unreleased minor versions)
    */
   public function calculateRisk($version): string {
+    $versionParts = explode('.', $version);
+    // Drupal 8+ cycles are minor versions, older ones only major versions.
+    $endOfLife = $this->endOfLifeDates[$versionParts[0] . '.' . ($versionParts[1] ?? '')]
+      ?? $this->endOfLifeDates[$versionParts[0]]
+      ?? NULL;
+
+    if ($endOfLife === NULL) {
+      return '';
+    }
+
+    // endoflife.date uses booleans if no date is known.
+    if (is_bool($endOfLife)) {
+      return $endOfLife ? 'high' : 'no';
+    }
+
+    $endOfLifeDate = new \DateTimeImmutable($endOfLife);
+    $today = new \DateTimeImmutable('today');
     return match (TRUE) {
-      version_compare($this->currentSecurityPatch, $version, '>') => 'high',
-      version_compare($this->currentVersion, $version, '>') => 'low',
+      $endOfLifeDate <= $today => 'high',
+      $endOfLifeDate <= $today->modify(self::EOL_WARNING_PERIOD) => 'low',
       default => 'no'
     };
   }
@@ -95,11 +109,26 @@ class DrupalVersionManager {
 
     foreach ($data['packages']['drupal/core'] as $package) {
       $version = $package['version'];
-      if(str_starts_with($version, $this->getCurrentMajorVersion()) && !str_contains($version, 'rc')) {
+      // skip unstable releases like alpha, beta, rc or dev versions
+      if(str_starts_with($version, $this->getCurrentMajorVersion() . '.') && preg_match('/^\d+\.\d+\.\d+$/', $version)) {
         return $version;
       }
     }
 
     return 'unknown';
+  }
+
+  /**
+   * Fetch the end of life dates of all drupal release cycles from https://endoflife.date/api/drupal.json.
+   *
+   * @return array
+   * @throws \Exception
+   */
+  private function fetchEndOfLifeDates(): array {
+    $url = 'https://endoflife.date/api/drupal.json';
+    $data = json_decode(file_get_contents($url), true);
+    if(!$data) throw new \Exception('Drupal end of life dates could not get fetched from ' . $url);
+
+    return array_column($data, 'eol', 'cycle');
   }
 }
