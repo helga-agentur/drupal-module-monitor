@@ -8,6 +8,10 @@
 {{ attach_library('monitor/monitor') }}
 
 <div class="l-monitor">
+  {% include '@monitor/c-legend.html.twig' with {
+    legend: monitor.legend,
+  } %}
+
   <header class="l-monitor__header c-section">
     <div class="l-monitor__header-content c-section__content u-grid">
       <div>Projekt</div>

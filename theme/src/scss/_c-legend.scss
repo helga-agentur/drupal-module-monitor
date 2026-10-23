@@ -1,0 +1,28 @@
+@use 's-typography';
+
+.c-legend {
+  padding: 1.5rem 0;
+
+  &__content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 3rem;
+  }
+
+  &__group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0;
+  }
+
+  &__title {
+    margin-right: 0.5rem;
+    font-weight: s-typography.$font-weight-bold;
+  }
+
+  &__item {
+    margin: 0;
+  }
+}

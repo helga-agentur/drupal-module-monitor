@@ -81,6 +81,10 @@ class MonitorController extends ControllerBase {
         '#theme' => 'monitor',
         'projects' => $projects,
         'globals' => $globals,
+        'legend' => [
+            'drupal' => $this->drupalVersionManager->getRiskLegend(),
+            'php' => $this->phpVersionManager->getRiskLegend(),
+        ],
         '#cache' => [
             'max-age' => 0
         ],

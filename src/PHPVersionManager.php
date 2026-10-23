@@ -54,6 +54,19 @@ class PHPVersionManager {
   }
 
   /**
+   * Get the meaning of the risks returned by calculateRisk().
+   *
+   * @return array
+   *   Labels keyed by risk, ordered from the highest to the lowest risk.
+   */
+  public function getRiskLegend(): array {
+    return [
+      'low' => 'Newer version available',
+      'no' => 'Latest version',
+    ];
+  }
+
+  /**
    * Fetches the current php version from
    * https://www.php.net/releases/ API
    *
