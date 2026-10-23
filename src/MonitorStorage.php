@@ -182,9 +182,10 @@ class MonitorStorage {
   public function getProjectData(string $project): array {
     $data = [];
     $data['identifier'] = $project;
-    $data['environments'] = array_map(function($environment) use ($project) {
+    //skip environments without data, so no empty rows are rendered.
+    $data['environments'] = array_values(array_filter(array_map(function($environment) use ($project) {
       return $this->getInstanceData($project, $environment);
-    }, $this->getEnvironments($project));
+    }, $this->getEnvironments($project))));
     return $data;
   }
 }
