@@ -12,7 +12,6 @@ use Drupal\Core\KeyValueStore\KeyValueStoreInterface;
  *
  * The data is kept in a non-expiring key/value store, so the last known
  * values of an instance stay available even if it doesn't report for a while
- * (e.g. stages which are only visited once a month).
  */
 class MonitorStorage {
 
