@@ -5,13 +5,13 @@
     "license": "GPL-2.0-or-later",
     "authors": [
         {
-            "name": "sandu",
-            "email": "sandro@helga.ch"
+            "name": "töbu",
+            "email": "tobias@helga.ch"
         }
     ],
     "minimum-stability": "stable",
     "require": {
-        "helga-agentur/monitor-instance": "^3.0.0",
+        "helga-agentur/monitor-instance": "^4.0",
         "cweagans/composer-patches": "^1.7"
     }
 }
