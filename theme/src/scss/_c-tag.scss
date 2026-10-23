@@ -7,6 +7,12 @@
   border: 1px solid s-colors.$text;
   border-radius: 30px;
 
+  &--small {
+    padding: 2px 12px;
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+
   &--no-risk {
     color: s-colors.$dark-green;
     background-color: s-colors.$pale-green;

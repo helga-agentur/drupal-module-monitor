@@ -2,12 +2,14 @@
 /**
  * @var text
  * @var risk
+ * @var modifier
  */
 #}
 
 {% set classes = [
   'c-tag',
   risk ? 'c-tag--' ~ risk ~ '-risk',
+  modifier ? 'c-tag--' ~ modifier,
 ] %}
 
 <div class="{{ classes|join(' ')|trim }}">

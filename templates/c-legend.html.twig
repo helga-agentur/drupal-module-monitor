@@ -1,0 +1,25 @@
+{#
+/**
+ * @var legend.drupal
+ * @var legend.php
+ */
+#}
+
+<div class="c-legend c-section">
+  <div class="c-legend__content c-section__content">
+    {% for title, risks in { 'Drupal': legend.drupal, 'PHP': legend.php } %}
+      <dl class="c-legend__group">
+        <dt class="c-legend__title">{{ title }}</dt>
+        {% for risk, label in risks %}
+          <dd class="c-legend__item">
+            {% include '@monitor/c-tag.html.twig' with {
+              text: label,
+              risk: risk,
+              modifier: 'small',
+            } %}
+          </dd>
+        {% endfor %}
+      </dl>
+    {% endfor %}
+  </div>
+</div>
