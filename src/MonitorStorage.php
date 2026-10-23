@@ -2,28 +2,30 @@
 
 namespace Drupal\monitor;
 
-use Drupal\Core\TempStore\SharedTempStore;
-use Drupal\Core\TempStore\SharedTempStoreFactory;
-use Drupal\Core\TempStore\TempStoreException;
+use Drupal\Core\KeyValueStore\KeyValueFactoryInterface;
+use Drupal\Core\KeyValueStore\KeyValueStoreInterface;
 
 /**
  * Class MonitorStorage.
  *
  * This class is used to save all monitor data.
+ *
+ * The data is kept in a non-expiring key/value store, so the last known
+ * values of an instance stay available even if it doesn't report for a while
  */
 class MonitorStorage {
 
-  const TEMP_STORE_NAME = 'monitor';
+  const STORE_NAME = 'monitor';
   const PROJECT_NAME = 'projects';
   const ENVIRONMENT_NAME = 'environments';
 
-  protected SharedTempStore $monitorDataStore;
+  protected KeyValueStoreInterface $monitorDataStore;
 
   /**
-   * @param SharedTempStoreFactory $sharedTempStore
+   * @param KeyValueFactoryInterface $keyValueFactory
    */
-  public function __construct(SharedTempStoreFactory $sharedTempStore) {
-    $this->monitorDataStore = $sharedTempStore->get(self::TEMP_STORE_NAME);
+  public function __construct(KeyValueFactoryInterface $keyValueFactory) {
+    $this->monitorDataStore = $keyValueFactory->get(self::STORE_NAME);
   }
 
   /**
@@ -33,14 +35,13 @@ class MonitorStorage {
    * @param string $environment
    * @param array $data
    * @return void
-   * @throws TempStoreException
    */
   public function setInstanceData(string $project, string $environment, array $data): void {
     $this->addProject($project);
     $this->addEnvironment($project, $environment);
     //add environment to $data
     $data['identifier'] = $environment;
-    $this->monitorDataStore->set($project . '_' . $environment, $data, -1);
+    $this->monitorDataStore->set($project . '_' . $environment, $data);
   }
 
   /**
@@ -49,7 +50,6 @@ class MonitorStorage {
    * @param string $project
    * @param string $environment
    * @return void
-   * @throws TempStoreException
    */
   public function deleteInstanceData(string $project, string $environment): void {
     $this->deleteEnvironment($project, $environment);
@@ -72,7 +72,6 @@ class MonitorStorage {
    *
    * @param string $project
    * @return void
-   * @throws TempStoreException
    */
   private function addProject(string $project): void {
     $projects = $this->getProjects();
@@ -85,7 +84,6 @@ class MonitorStorage {
    *
    * @param string $project
    * @return void
-   * @throws TempStoreException
    */
   public function deleteProject(string $project): void {
     foreach ($this->getEnvironments($project) as $environment) {
@@ -95,7 +93,7 @@ class MonitorStorage {
     if (($key = array_search($project, $projects)) !== false) {
       unset($projects[$key]);
     }
-    $this->monitorDataStore->set(self::PROJECT_NAME, array_unique($projects), -1);
+    $this->monitorDataStore->set(self::PROJECT_NAME, array_unique($projects));
   }
 
   /**
@@ -104,12 +102,11 @@ class MonitorStorage {
    * @param string $project
    * @param string $environment
    * @return void
-   * @throws TempStoreException
    */
   private function addEnvironment(string $project, string $environment): void {
     $environments = $this->getEnvironments($project);
     $environments[] = $environment;
-    $this->monitorDataStore->set($project . '_' . self::ENVIRONMENT_NAME, array_unique($environments), -1);
+    $this->monitorDataStore->set($project . '_' . self::ENVIRONMENT_NAME, array_unique($environments));
   }
 
   /**
@@ -118,14 +115,13 @@ class MonitorStorage {
    * @param string $project
    * @param string $environment
    * @return void
-   * @throws TempStoreException
    */
   private function deleteEnvironment(string $project, string $environment): void {
     $environments = $this->getEnvironments($project);
     if (($key = array_search($environment, $environments)) !== false) {
       unset($environments[$key]);
     }
-    $this->monitorDataStore->set($project . '_' . self::ENVIRONMENT_NAME, array_unique($environments), -1);
+    $this->monitorDataStore->set($project . '_' . self::ENVIRONMENT_NAME, array_unique($environments));
   }
 
   /**
@@ -185,9 +181,10 @@ class MonitorStorage {
   public function getProjectData(string $project): array {
     $data = [];
     $data['identifier'] = $project;
-    $data['environments'] = array_map(function($environment) use ($project) {
+    //skip environments without data, so no empty rows are rendered.
+    $data['environments'] = array_values(array_filter(array_map(function($environment) use ($project) {
       return $this->getInstanceData($project, $environment);
-    }, $this->getEnvironments($project));
+    }, $this->getEnvironments($project))));
     return $data;
   }
 }

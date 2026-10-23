@@ -1,7 +1,7 @@
 services:
   monitor.storage:
     class: Drupal\monitor\MonitorStorage
-    arguments: ['@tempstore.shared']
+    arguments: ['@keyvalue']
 
   monitor.log_manager:
     class: Drupal\monitor\LogManager

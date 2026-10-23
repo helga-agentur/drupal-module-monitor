@@ -45,10 +45,10 @@ class MonitorController extends ControllerBase {
     $projects = match(boolval($this->config(SettingsForm::CONFIG)->get(SettingsForm::CONFIG_DUMMYDATA))) {
       //read mock data from data.json
       true => json_decode(file_get_contents(\Drupal::service('extension.list.module')->getPath('monitor') . '/data/data.json'), true),
-      // read from internal storage
-      default => array_map(function ($project) {
+      // read from internal storage, skip projects without any environment data
+      default => array_values(array_filter(array_map(function ($project) {
         return $this->monitorStorage->getProjectData($project);
-      }, $this->monitorStorage->getProjects())
+      }, $this->monitorStorage->getProjects()), fn($project) => !empty($project['environments'])))
     };
 
     $globals['drupal'] = [
@@ -64,11 +64,15 @@ class MonitorController extends ControllerBase {
     //by basically just looping the projects
     array_walk($projects, function(&$project) use ($globals) {
       //then their environments, remove empty ones.
-      $environments = array_filter($project['environments']);
-      array_walk($environments, function(&$environment) use ($globals) {
-        //and compare
-        $environment['php']['risk'] = $this->phpVersionManager->calculateRisk($environment['php']['version']);
-        $environment['drupal']['risk'] = $this->drupalVersionManager->calculateRisk($environment['drupal']['version']);
+      $project['environments'] = array_values(array_filter($project['environments']));
+      array_walk($project['environments'], function(&$environment) use ($globals) {
+        //and compare, if the instance sent a version
+        if (!empty($environment['php']['version'])) {
+          $environment['php']['risk'] = $this->phpVersionManager->calculateRisk($environment['php']['version']);
+        }
+        if (!empty($environment['drupal']['version'])) {
+          $environment['drupal']['risk'] = $this->drupalVersionManager->calculateRisk($environment['drupal']['version']);
+        }
       });
     });
 

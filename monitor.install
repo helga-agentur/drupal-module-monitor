@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the monitor module.
+ */
+
+use Drupal\monitor\MonitorStorage;
+
+/**
+ * Move monitor data from the expiring shared tempstore to the key/value store.
+ */
+function monitor_update_10001(): void {
+  $tempStore = \Drupal::service('tempstore.shared')->get(MonitorStorage::STORE_NAME);
+  $keyValueStore = \Drupal::keyValue(MonitorStorage::STORE_NAME);
+
+  $projects = $tempStore->get(MonitorStorage::PROJECT_NAME) ?: [];
+  $keyValueStore->set(MonitorStorage::PROJECT_NAME, $projects);
+  $tempStore->delete(MonitorStorage::PROJECT_NAME);
+
+  foreach ($projects as $project) {
+    $environmentsKey = $project . '_' . MonitorStorage::ENVIRONMENT_NAME;
+    $environments = $tempStore->get($environmentsKey) ?: [];
+    $keyValueStore->set($environmentsKey, $environments);
+    $tempStore->delete($environmentsKey);
+
+    foreach ($environments as $environment) {
+      $instanceKey = $project . '_' . $environment;
+      if ($instanceData = $tempStore->get($instanceKey)) {
+        $keyValueStore->set($instanceKey, $instanceData);
+      }
+      $tempStore->delete($instanceKey);
+    }
+  }
+}
