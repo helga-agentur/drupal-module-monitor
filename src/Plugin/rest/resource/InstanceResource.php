@@ -4,7 +4,6 @@ namespace Drupal\monitor\Plugin\rest\resource;
 
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\Queue\QueueInterface;
-use Drupal\Core\TempStore\TempStoreException;
 use Drupal\monitor\LogManager;
 use Drupal\monitor\MonitorStorage;
 use Drupal\monitor\SendToMonitorFlag;
@@ -73,7 +72,6 @@ class InstanceResource extends MonitorResource {
    *
    * @param array|null $data
    * @return ModifiedResourceResponse
-   * @throws TempStoreException
    */
   public function post(?array $data): ModifiedResourceResponse {
     if (!$data) {
@@ -95,7 +93,6 @@ class InstanceResource extends MonitorResource {
    *
    * @param array $data
    * @return void
-   * @throws TempStoreException
    */
   private function sendToQueue(array $data): void {
     if(!$this->queue->createItem($data)) {
