@@ -19,15 +19,31 @@ class DrupalVersionManager {
   const EOL_WARNING_PERIOD = '+6 months';
 
   /**
+   * Seconds the fetched release data is cached.
+   */
+  const CACHE_LIFETIME = 3600;
+
+  /**
    * End of life dates keyed by release cycle (e.g. "11.4" or "7").
    */
   private array $endOfLifeDates = [];
+
+  /**
+   * Versions marked as insecure by drupal.org, because a security release superseded them.
+   */
+  private array $insecureVersions = [];
 
   public function __construct() {
     try {
       $this->currentMajorVersion = \Drupal::config(SettingsForm::CONFIG)->get(SettingsForm::CONFIG_DRUPALVERSION);
       $this->currentVersion = $this->fetchCurrentVersion();
-      $this->endOfLifeDates = $this->fetchEndOfLifeDates();
+    } catch (\Exception $e) {
+      \Drupal::logger('monitor')->error($e->getMessage());
+    }
+
+    try {
+      $this->endOfLifeDates = $this->getCachedData('monitor:drupal:end_of_life_dates', fn() => $this->fetchEndOfLifeDates());
+      $this->insecureVersions = $this->getCachedData('monitor:drupal:insecure_versions', fn() => $this->fetchInsecureVersions());
     } catch (\Exception $e) {
       \Drupal::logger('monitor')->error($e->getMessage());
     }
@@ -61,11 +77,13 @@ class DrupalVersionManager {
   }
 
   /**
-   * Calculates the risk of your version by the end of life of its release cycle.
+   * Calculates the risk of your version by the end of life of its release cycle
+   * and by missing security updates.
    *
    * @param $version
    * @return string
    * - 'high' if the release cycle doesn't get security updates anymore
+   * - 'moderate' if a security update is available for this version
    * - 'low' if the release cycle reaches its end of life within the warning period
    * - 'no' if the release cycle is supported beyond the warning period
    * - '' if the release cycle is unknown (e.g. unreleased minor versions)
@@ -83,16 +101,32 @@ class DrupalVersionManager {
 
     // endoflife.date uses booleans if no date is known.
     if (is_bool($endOfLife)) {
-      return $endOfLife ? 'high' : 'no';
+      $endOfLife = $endOfLife ? 'today' : '+100 years';
     }
 
     $endOfLifeDate = new \DateTimeImmutable($endOfLife);
     $today = new \DateTimeImmutable('today');
     return match (TRUE) {
       $endOfLifeDate <= $today => 'high',
+      in_array($version, $this->insecureVersions, TRUE) => 'moderate',
       $endOfLifeDate <= $today->modify(self::EOL_WARNING_PERIOD) => 'low',
       default => 'no'
     };
+  }
+
+  /**
+   * Get the meaning of the risks returned by calculateRisk().
+   *
+   * @return array
+   *   Labels keyed by risk, ordered from the highest to the lowest risk.
+   */
+  public function getRiskLegend(): array {
+    return [
+      'high' => 'No security updates anymore',
+      'moderate' => 'Security update available',
+      'low' => 'End of life within ' . trim(self::EOL_WARNING_PERIOD, '+'),
+      'no' => 'Supported',
+    ];
   }
 
   /**
@@ -130,5 +164,44 @@ class DrupalVersionManager {
     if(!$data) throw new \Exception('Drupal end of life dates could not get fetched from ' . $url);
 
     return array_column($data, 'eol', 'cycle');
+  }
+
+  /**
+   * Fetch all versions marked as insecure from https://updates.drupal.org/release-history/drupal/current.
+   *
+   * @return array
+   * @throws \Exception
+   */
+  private function fetchInsecureVersions(): array {
+    $url = 'https://updates.drupal.org/release-history/drupal/current';
+    $data = simplexml_load_string(file_get_contents($url));
+    if(!$data) throw new \Exception('Drupal release history could not get fetched from ' . $url);
+
+    $insecureVersions = [];
+    foreach ($data->releases->release as $release) {
+      foreach ($release->terms->term ?? [] as $term) {
+        if ((string) $term->name === 'Release type' && (string) $term->value === 'Insecure') {
+          $insecureVersions[] = (string) $release->version;
+        }
+      }
+    }
+    return $insecureVersions;
+  }
+
+  /**
+   * Get data from the cache or fetch and cache it, if it isn't cached yet.
+   *
+   * @param string $cid
+   * @param callable $fetch
+   * @return array
+   * @throws \Exception
+   */
+  private function getCachedData(string $cid, callable $fetch): array {
+    if ($cache = \Drupal::cache()->get($cid)) {
+      return $cache->data;
+    }
+    $data = $fetch();
+    \Drupal::cache()->set($cid, $data, \Drupal::time()->getRequestTime() + self::CACHE_LIFETIME);
+    return $data;
   }
 }
