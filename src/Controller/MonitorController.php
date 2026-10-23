@@ -64,11 +64,15 @@ class MonitorController extends ControllerBase {
     //by basically just looping the projects
     array_walk($projects, function(&$project) use ($globals) {
       //then their environments, remove empty ones.
-      $environments = array_filter($project['environments']);
-      array_walk($environments, function(&$environment) use ($globals) {
-        //and compare
-        $environment['php']['risk'] = $this->phpVersionManager->calculateRisk($environment['php']['version']);
-        $environment['drupal']['risk'] = $this->drupalVersionManager->calculateRisk($environment['drupal']['version']);
+      $project['environments'] = array_values(array_filter($project['environments']));
+      array_walk($project['environments'], function(&$environment) use ($globals) {
+        //and compare, if the instance sent a version
+        if (!empty($environment['php']['version'])) {
+          $environment['php']['risk'] = $this->phpVersionManager->calculateRisk($environment['php']['version']);
+        }
+        if (!empty($environment['drupal']['version'])) {
+          $environment['drupal']['risk'] = $this->drupalVersionManager->calculateRisk($environment['drupal']['version']);
+        }
       });
     });
 
